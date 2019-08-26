@@ -4,8 +4,8 @@ from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.testing import z2
 
-import collective.fhirpath
 import os
 
 
@@ -24,13 +24,24 @@ class CollectiveFhirpathLayer(PloneSandboxLayer):
 
         self.loadZCML(package=plone.restapi)
 
+        import collective.elasticsearch
+
+        self.loadZCML(package=collective.elasticsearch)
+
         import plone.app.fhirfield
 
         self.loadZCML(package=plone.app.fhirfield)
+        # initialize method not calling automatically
+        z2.installProduct(app, "plone.app.fhirfield")
+
+        import collective.fhirpath
 
         self.loadZCML(package=collective.fhirpath)
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, "collective.elasticsearch:default")
+        applyProfile(portal, "plone.app.fhirfield:default")
+        applyProfile(portal, "plone.app.fhirfield:testing")
         applyProfile(portal, "collective.fhirpath:default")
 
 

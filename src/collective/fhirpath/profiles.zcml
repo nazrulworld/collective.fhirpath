@@ -12,15 +12,6 @@
       />
 
   <genericsetup:registerProfile
-      name="testing"
-      title="collective.fhirpath"
-      directory="profiles/default"
-      description="Testing the collective.fhirpath add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
-
-
-  <genericsetup:registerProfile
       name="uninstall"
       title="collective.fhirpath (uninstall)"
       directory="profiles/uninstall"

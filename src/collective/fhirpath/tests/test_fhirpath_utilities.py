@@ -1,6 +1,4 @@
 # _*_ coding: utf-8 _*_
-import unittest
-
 from collective.elasticsearch.es import ElasticSearchCatalog
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.interfaces import IEngine
@@ -11,6 +9,8 @@ from fhirpath.providers.interfaces import IElasticsearchEngineFactory
 from plone import api
 from plone.app.fhirfield.testing import PLONE_APP_FHIRFIELD_INTEGRATION_TESTING
 from zope.component import queryMultiAdapter
+
+import unittest
 
 
 __author__ = "Md Nazrul Islam <email2nazrul@gmail.com>"
