@@ -15,27 +15,9 @@
 
   <include package=".browser" />
 
-  <include file="permissions.zcml" />
-
   <include file="upgrades.zcml" />
 
-  <genericsetup:registerProfile
-      name="default"
-      title="collective.fhirpath"
-      directory="profiles/default"
-      description="Installs the collective.fhirpath add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler=".setuphandlers.post_install"
-      />
-
-  <genericsetup:registerProfile
-      name="uninstall"
-      title="collective.fhirpath (uninstall)"
-      directory="profiles/uninstall"
-      description="Uninstalls the collective.fhirpath add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler=".setuphandlers.uninstall"
-      />
+  <include file="profiles.zcml" />
 
   <utility
       factory=".setuphandlers.HiddenProfiles"
@@ -43,5 +25,6 @@
       />
 
   <!-- -*- extra stuff goes here -*- -->
+  <include file="adapters.zcml" />
 
 </configure>

@@ -5,16 +5,40 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-long_description = '\n\n'.join([
-    open('README.rst').read(),
-    open('CONTRIBUTORS.rst').read(),
-    open('CHANGES.rst').read(),
-])
+long_description = "\n\n".join(
+    [
+        open("README.rst").read(),
+        open("CONTRIBUTORS.rst").read(),
+        open("CHANGES.rst").read(),
+    ]
+)
+
+install_requires = [
+    "setuptools",
+    # -*- Extra requirements: -*-
+    "z3c.jbot",
+    "plone.api>=1.8.4",
+    "plone.restapi",
+    "plone.app.dexterity",
+    "collective.elasticsearch",
+    "fhirpath",
+]
+
+test_requires = [
+    "plone.app.testing",
+    # Plone KGS does not use this version, because it would break
+    # Remove if your package shall be part of coredev.
+    # plone_coredev tests as of 2016-04-01.
+    "plone.testing>=5.0.0",
+    "plone.app.contenttypes",
+    "plone.app.robotframework[debug]",
+    "plone.app.fhirfield"
+]
 
 
 setup(
-    name='collective.fhirpath',
-    version='0.1.0',
+    name="collective.fhirpath",
+    version="0.1.0",
     description="Plone powered provider for fhirpath",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -31,43 +55,25 @@ setup(
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
-    keywords='Python Plone',
-    author='Md Nazrul Islam',
-    author_email='email2nazru@gmail.com',
-    url='https://github.com/collective/collective.fhirpath',
+    keywords="Python Plone",
+    author="Md Nazrul Islam",
+    author_email="email2nazru@gmail.com",
+    url="https://github.com/collective/collective.fhirpath",
     project_urls={
-        'PyPI': 'https://pypi.python.org/pypi/collective.fhirpath',
-        'Source': 'https://github.com/collective/collective.fhirpath',
-        'Tracker': 'https://github.com/collective/collective.fhirpath/issues',
+        "PyPI": "https://pypi.python.org/pypi/collective.fhirpath",
+        "Source": "https://github.com/collective/collective.fhirpath",
+        "Tracker": "https://github.com/collective/collective.fhirpath/issues",
         # 'Documentation': 'https://collective.fhirpath.readthedocs.io/en/latest/',
     },
-    license='GPL version 2',
-    packages=find_packages('src', exclude=['ez_setup']),
-    namespace_packages=['collective'],
-    package_dir={'': 'src'},
+    license="GPL version 2",
+    packages=find_packages("src", exclude=["ez_setup"]),
+    namespace_packages=["collective"],
+    package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
     python_requires=">=3.6",
-    install_requires=[
-        'setuptools',
-        # -*- Extra requirements: -*-
-        'z3c.jbot',
-        'plone.api>=1.8.4',
-        'plone.restapi',
-        'plone.app.dexterity',
-        "fhirpath"
-    ],
-    extras_require={
-        'test': [
-            'plone.app.testing',
-            # Plone KGS does not use this version, because it would break
-            # Remove if your package shall be part of coredev.
-            # plone_coredev tests as of 2016-04-01.
-            'plone.testing>=5.0.0',
-            'plone.app.contenttypes',
-            'plone.app.robotframework[debug]',
-        ],
-    },
+    install_requires=install_requires,
+    extras_require={"test": test_requires},
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
