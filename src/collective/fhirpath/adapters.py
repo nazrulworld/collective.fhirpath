@@ -4,11 +4,11 @@ from collective.elasticsearch.interfaces import IElasticSearchCatalog
 from fhirpath.connectors.factory.es import ElasticsearchConnection
 from fhirpath.dialects.elasticsearch import ElasticSearchDialect
 from fhirpath.enums import FHIR_VERSION
+from fhirpath.interfaces import IElasticsearchEngineFactory
 from fhirpath.interfaces import IEngine
 from fhirpath.interfaces import IFhirSearch
 from fhirpath.interfaces import ISearchContext
 from fhirpath.interfaces import ISearchContextFactory
-from fhirpath.providers.interfaces import IElasticsearchEngineFactory
 from fhirpath.search import fhir_search
 from fhirpath.search import SearchContext
 from zope.component import adapter

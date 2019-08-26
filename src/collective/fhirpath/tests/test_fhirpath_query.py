@@ -1,11 +1,12 @@
 # _*_ coding: utf-8 _*_
 from collective.elasticsearch.es import ElasticSearchCatalog
+from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.enums import SortOrderType
 from fhirpath.fql import Q_
 from fhirpath.fql import sort_
 from fhirpath.fql import T_
-from fhirpath.providers.interfaces import IElasticsearchEngineFactory
+from fhirpath.interfaces import IElasticsearchEngineFactory
 from plone import api
 from plone.app.fhirfield.tests.base import BaseFunctionalTesting
 from zope.component import queryMultiAdapter
@@ -16,6 +17,7 @@ __author__ = "Md Nazrul Islam <email2nazrul@gmail.com>"
 
 class FhirPathPloneQueryFunctionalTest(BaseFunctionalTesting):
     """ """
+    layer = COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 
     def get_es_catalog(self):
         """ """

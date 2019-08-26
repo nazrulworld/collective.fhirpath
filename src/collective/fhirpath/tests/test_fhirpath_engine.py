@@ -1,9 +1,9 @@
 # _*_ coding: utf-8 _*_
 from collective.elasticsearch.es import ElasticSearchCatalog
+from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_INTEGRATION_TESTING
 from fhirpath.enums import FHIR_VERSION
-from fhirpath.providers.interfaces import IElasticsearchEngineFactory
+from fhirpath.interfaces import IElasticsearchEngineFactory
 from plone import api
-from plone.app.fhirfield.testing import PLONE_APP_FHIRFIELD_INTEGRATION_TESTING
 from zope.component import queryMultiAdapter
 
 import unittest
@@ -15,7 +15,7 @@ __author__ = "Md Nazrul Islam <email2nazrul@gmail.com>"
 class FhirpathPloneEngineIntegrationTest(unittest.TestCase):
     """ """
 
-    layer = PLONE_APP_FHIRFIELD_INTEGRATION_TESTING
+    layer = COLLECTIVE_FHIRPATH_INTEGRATION_TESTING
 
     def setUp(self):
         """ """
