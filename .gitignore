@@ -19,6 +19,8 @@ src/*
 dist/*
 test.plone_addon/
 var/
+.Python
+mr-developer-src/
 # files
 .installed.cfg
 .mr.developer.cfg
