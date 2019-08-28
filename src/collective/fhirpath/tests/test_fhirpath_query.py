@@ -42,6 +42,24 @@ class FhirPathPloneQueryFunctionalTest(BaseFunctionalTesting):
                 "http://hl7.org/fhir/Organization"))
             .sort(sort_("Organization.meta.lastUpdated", SortOrderType.DESC))
         )
+        count = 0
 
-        for resource in builder(async_result=False):
+        for resource in builder(async_result=False, unrestricted=True):
+            count += 1
             assert resource.__class__.__name__ == "OrganizationModel"
+
+        self.assertEqual(count, 2)
+
+    def test_fetchall(self):
+        """ """
+        self.load_contents()
+        engine = self.get_engine()
+        builder = Q_(resource="Organization", engine=engine)
+        builder = (
+            builder.where(T_(
+                "Organization.meta.profile",
+                "http://hl7.org/fhir/Organization"))
+            .sort(sort_("Organization.meta.lastUpdated", SortOrderType.DESC))
+        )
+        result = builder(async_result=False, unrestricted=True).fetchall()
+        self.assertEqual(result.header.total, 2)

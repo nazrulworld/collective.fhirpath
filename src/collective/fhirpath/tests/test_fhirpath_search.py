@@ -21,13 +21,15 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
         """ """
         return ElasticSearchCatalog(api.portal.get_tool("portal_catalog"))
 
-    def get_factory(self, resource_type):
+    def get_factory(self, resource_type, unrestricted=False):
         """ """
         factory = queryMultiAdapter(
             (self.get_es_catalog(),), IElasticsearchEngineFactory
         )
         engine = factory(fhir_version=FHIR_VERSION.STU3)
-        context = queryMultiAdapter((engine,), ISearchContextFactory)("Organization")
+        context = queryMultiAdapter((engine,), ISearchContextFactory)(
+            "Organization", unrestricted=unrestricted
+        )
 
         factory = queryMultiAdapter((context,), IFhirSearch)
         return factory
@@ -37,7 +39,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
         self.load_contents()
 
         params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
-        search_factory = self.get_factory("Organization")
+        search_factory = self.get_factory("Organization", True)
         bundle = search_factory(params)
         self.assertEqual(len(bundle.entry), 1)
 
