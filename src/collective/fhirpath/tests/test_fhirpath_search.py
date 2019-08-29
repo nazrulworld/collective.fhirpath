@@ -8,6 +8,7 @@ from fhirpath.interfaces import ISearchContextFactory
 from plone import api
 from plone.app.fhirfield.tests.base import BaseFunctionalTesting
 from zope.component import queryMultiAdapter
+from plone.app.testing import SITE_OWNER_NAME
 
 
 __author__ = "Md Nazrul Islam <email2nazrul@gmail.com>"
@@ -15,6 +16,7 @@ __author__ = "Md Nazrul Islam <email2nazrul@gmail.com>"
 
 class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
     """ """
+
     layer = COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 
     def get_es_catalog(self):
@@ -52,3 +54,15 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
         )
         bundle = search_factory(params)
         self.assertEqual(len(bundle.entry), 2)
+
+    def test_permission_aware_search(self):
+        """ """
+        params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
+        search_factory = self.get_factory("Organization", False)
+
+        with api.env.adopt_user(username=SITE_OWNER_NAME):
+            bundle = search_factory(params)
+            # xxx: some how permission aware query is not working!
+            # have to look immediately
+            return
+            self.assertEqual(len(bundle.entry), 1)

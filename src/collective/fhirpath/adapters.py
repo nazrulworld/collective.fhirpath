@@ -1,8 +1,8 @@
 # _*_ coding: utf-8 _*_
+from .dialect import ElasticSearchDialect
 from .engine import ElasticsearchEngine
 from collective.elasticsearch.interfaces import IElasticSearchCatalog
 from fhirpath.connectors.factory.es import ElasticsearchConnection
-from fhirpath.dialects.elasticsearch import ElasticSearchDialect
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.interfaces import IElasticsearchEngineFactory
 from fhirpath.interfaces import IEngine

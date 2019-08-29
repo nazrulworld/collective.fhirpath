@@ -33,7 +33,7 @@ class ElasticsearchEngine(BaseEngine):
 
     def get_index_name(self):
         """ """
-        self.es_catalog.index_name
+        return self.es_catalog.index_name
 
     def build_security_query(self):
         # The users who has plone.AccessContent permission by prinperm
