@@ -35,6 +35,13 @@ class ElasticsearchEngine(BaseEngine):
         """ """
         return self.es_catalog.index_name
 
+    def get_mapping(self, resource_type):
+        """ """
+        field_index_name = self.calculate_field_index_name(resource_type)
+        field_index = self.es_catalog.catalogtool._catalog.getIndex(field_index_name)
+
+        return field_index.mapping
+
     def build_security_query(self):
         # The users who has plone.AccessContent permission by prinperm
         # The roles who has plone.AccessContent permission by roleperm
@@ -126,4 +133,6 @@ class ElasticsearchEngine(BaseEngine):
             if res["_type"] != "portal_catalog":
                 continue
             if fieldname in res["_source"]:
-                container.append(res["_source"][fieldname])
+                item = res["_source"][fieldname]
+                assert len(item) > 0, "item from hits cannot be empty!"
+                container.append(item)

@@ -25,12 +25,21 @@ class ElasticSearchDialect(BaseDialect):
             value = IFhirPrimitiveType(securities["effectiveRange"])
             # just validation
             value.to_python()
-            range_ = {
-                "effectiveRange": {
-                    ES_PY_OPERATOR_MAP[operator.ge]: value,
-                    ES_PY_OPERATOR_MAP[operator.le]: value,
-                }
-            }
+            range_ = [
+                {
+                    "range": {
+                        "effectiveRange.effectiveRange1": {
+                            ES_PY_OPERATOR_MAP[operator.le]: value
+                        }
+                    }
+                },
+                {
+                    "range": {
+                        "effectiveRange.effectiveRange2": {
+                            ES_PY_OPERATOR_MAP[operator.ge]: value
+                        }
+                    }
+                },
+            ]
 
-            body_structure["query"]["bool"]["filter"].append({"range": range_})
-
+            body_structure["query"]["bool"]["filter"].extend(range_)
