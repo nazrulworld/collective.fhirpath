@@ -8,7 +8,8 @@ collective.fhirpath
 Documentation
 -------------
 
-Full documentation for end users can be found in the "docs" folder, and is also available online at
+Full documentation for end users can be found in the "docs" folder,
+and is also available online at https://collective-fhirpath.readthedocs.io/
 
 
 Installation
