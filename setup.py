@@ -32,7 +32,14 @@ test_requires = [
     "plone.testing>=5.0.0",
     "plone.app.contenttypes",
     "plone.app.robotframework[debug]",
-    "plone.app.fhirfield"
+    "plone.app.fhirfield",
+]
+
+docs_requirements = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "sphinxcontrib-httpdomain",
+    "sphinxcontrib-httpexample",
 ]
 
 
@@ -55,7 +62,7 @@ setup(
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
-    keywords="Python Plone",
+    keywords="Python Plone FHIR Healthcare HL7",
     author="Md Nazrul Islam",
     author_email="email2nazru@gmail.com",
     url="https://github.com/collective/collective.fhirpath",
@@ -73,7 +80,10 @@ setup(
     zip_safe=False,
     python_requires=">=3.6",
     install_requires=install_requires,
-    extras_require={"test": test_requires},
+    extras_require={
+        "test": test_requires + docs_requirements,
+        "docs": docs_requirements,
+    },
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
