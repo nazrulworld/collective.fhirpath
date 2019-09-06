@@ -43,3 +43,10 @@ class ElasticSearchDialect(BaseDialect):
             ]
 
             body_structure["query"]["bool"]["filter"].extend(range_)
+
+    def _clean_up(self, body_structure):
+        """ """
+        # add default sort
+        if "_score" not in str(body_structure["sort"]):
+            body_structure["sort"].append("_score")
+        super(ElasticSearchDialect, self)._clean_up(body_structure)

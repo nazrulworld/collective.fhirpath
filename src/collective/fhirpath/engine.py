@@ -49,7 +49,7 @@ class ElasticsearchEngine(BaseEngine):
         user = _getAuthenticatedUser(self.es_catalog.catalogtool)
         users_roles = self.es_catalog.catalogtool._listAllowedRolesAndUsers(user)
         params = {"allowedRolesAndUsers": users_roles}
-        if not show_inactive and not _checkPermission(
+        if not show_inactive and not _checkPermission(  # noqa: P001
             AccessInactivePortalContent, self.es_catalog.catalogtool
         ):
             params["effectiveRange"] = FhirDateTime(DateTime().ISO8601())

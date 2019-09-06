@@ -172,3 +172,38 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
 
         # Should One HAQ sub task
         self.assertEqual(len(bundle.entry), 1)
+
+    def test_sorting(self):
+        """Search where reference inside List """
+        self.load_contents()
+
+        search_factory = self.get_factory("Task", True)
+        # Test ascending order
+        params = (
+            ("status:missing", "false"),
+            ("_sort", "_lastUpdated")
+        )
+        bundle = search_factory(params)
+
+        self.assertGreater(
+            bundle.entry[1].resource.meta.lastUpdated.date,
+            bundle.entry[0].resource.meta.lastUpdated.date,
+        )
+        self.assertGreater(
+            bundle.entry[2].resource.meta.lastUpdated.date,
+            bundle.entry[1].resource.meta.lastUpdated.date,
+        )
+        # Test descending order
+        params = (
+            ("status:missing", "false"),
+            ("_sort", "-_lastUpdated")
+        )
+        bundle = search_factory(params)
+        self.assertGreater(
+            bundle.entry[0].resource.meta.lastUpdated.date,
+            bundle.entry[1].resource.meta.lastUpdated.date,
+        )
+        self.assertGreater(
+            bundle.entry[1].resource.meta.lastUpdated.date,
+            bundle.entry[2].resource.meta.lastUpdated.date,
+        )

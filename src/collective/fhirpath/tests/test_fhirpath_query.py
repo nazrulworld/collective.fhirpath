@@ -3,10 +3,10 @@ from collective.elasticsearch.es import ElasticSearchCatalog
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.enums import SortOrderType
+from fhirpath.fql import not_
 from fhirpath.fql import Q_
 from fhirpath.fql import sort_
 from fhirpath.fql import T_
-from fhirpath.fql import not_
 from fhirpath.interfaces import IElasticsearchEngineFactory
 from plone import api
 from plone.app.fhirfield.tests.base import BaseFunctionalTesting
@@ -59,6 +59,7 @@ class FhirPathPloneQueryFunctionalTest(BaseFunctionalTesting):
             T_("Organization.meta.profile", "http://hl7.org/fhir/Organization")
         ).sort(sort_("Organization.meta.lastUpdated", SortOrderType.DESC))
         result = builder(async_result=False, unrestricted=True).fetchall()
+
         self.assertEqual(result.header.total, 2)
 
         # Test
