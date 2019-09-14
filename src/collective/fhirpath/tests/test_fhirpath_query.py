@@ -4,10 +4,10 @@ from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.enums import SortOrderType
 from fhirpath.fql import not_
-from fhirpath.fql import Q_
 from fhirpath.fql import sort_
 from fhirpath.fql import T_
 from fhirpath.interfaces import IElasticsearchEngineFactory
+from fhirpath.query import Q_
 from plone import api
 from plone.app.fhirfield.tests.base import BaseFunctionalTesting
 from zope.component import queryMultiAdapter

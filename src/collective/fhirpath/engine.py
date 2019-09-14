@@ -2,7 +2,14 @@
 from collective.elasticsearch.interfaces import IElasticSearchCatalog
 from DateTime import DateTime
 from fhirpath.engine.es import ElasticsearchEngine as BaseEngine
+from fhirpath.enums import GroupType
+from fhirpath.enums import MatchType
+from fhirpath.fql import G_
+from fhirpath.fql import T_
+from fhirpath.interfaces import IIgnoreNestedCheck
 from fhirpath.types import FhirDateTime
+from fhirpath.types import FhirString
+from fhirpath.types import PrimitiveTypeCollection
 from plone import api
 from plone.behavior.interfaces import IBehavior
 from Products.CMFCore.permissions import AccessInactivePortalContent
@@ -11,6 +18,7 @@ from Products.CMFCore.utils import _getAuthenticatedUser
 from yarl import URL
 from zope.component import getUtility
 from zope.globalrequest import getRequest
+from zope.interface import alsoProvides
 from zope.schema import getFields
 
 import logging
@@ -42,19 +50,45 @@ class ElasticsearchEngine(BaseEngine):
 
         return field_index.mapping
 
-    def build_security_query(self):
+    def build_security_query(self, query):
         # The users who has plone.AccessContent permission by prinperm
         # The roles who has plone.AccessContent permission by roleperm
         show_inactive = False  # we will take care later
         user = _getAuthenticatedUser(self.es_catalog.catalogtool)
-        users_roles = self.es_catalog.catalogtool._listAllowedRolesAndUsers(user)
-        params = {"allowedRolesAndUsers": users_roles}
+        users_roles = [
+            FhirString(ur)
+            for ur in self.es_catalog.catalogtool._listAllowedRolesAndUsers(user)
+        ]
+        filters = list()
+        term = T_(
+            "allowedRolesAndUsers",
+            value=PrimitiveTypeCollection(*users_roles),
+            non_fhir=True,
+        )
+
+        filters.append(term)
+
         if not show_inactive and not _checkPermission(  # noqa: P001
             AccessInactivePortalContent, self.es_catalog.catalogtool
         ):
-            params["effectiveRange"] = FhirDateTime(DateTime().ISO8601())
+            value = FhirDateTime(FhirDateTime(DateTime().ISO8601()))
+            terms = list()
+            term = T_("effectiveRange.effectiveRange1", non_fhir=True) <= value
+            terms.append(term)
 
-        return params
+            term = T_("effectiveRange.effectiveRange2", non_fhir=True) >= value
+            terms.append(term)
+
+            g = G_(*terms, path=None, type_=GroupType.COUPLED)
+            alsoProvides(g, IIgnoreNestedCheck)
+            g.match_operator = MatchType.ALL
+            filters.append(g)
+
+        # Let's finalize
+        for f in filters:
+            f.finalize(self)
+
+        query._where.extend(filters)
 
     def calculate_field_index_name(self, resource_type):
         """1.) xxx: should be cached
