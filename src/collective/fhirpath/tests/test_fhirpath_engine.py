@@ -2,7 +2,9 @@
 from collective.elasticsearch.es import ElasticSearchCatalog
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_INTEGRATION_TESTING
 from fhirpath.enums import FHIR_VERSION
+from fhirpath.fql import T_
 from fhirpath.interfaces import IElasticsearchEngineFactory
+from fhirpath.query import Q_
 from plone import api
 from zope.component import queryMultiAdapter
 
@@ -39,8 +41,20 @@ class FhirpathPloneEngineIntegrationTest(unittest.TestCase):
         index_field_name = engine.calculate_field_index_name("Organization")
         self.assertEqual(index_field_name, "organization_resource")
 
-    def offtest_build_security_query(self):
+    def test_build_security_query(self):
         """ """
         engine = self.get_engine()
-        security_params = engine.build_security_query()
-        self.assertIn("user:test_user_1_", security_params["allowedRolesAndUsers"])
+        query_builder = Q_(resource="Organization", engine=engine).where(
+            T_("Organization.meta.profile", "http://hl7.org/fhir/Organization")
+        )
+        query_builder.finalize()
+        query = query_builder.get_query()
+
+        engine.build_security_query(query)
+        non_fhir_term = query.get_where()[1]
+        self.assertEqual("allowedRolesAndUsers", non_fhir_term.path)
+        self.assertIn("user:test_user_1_", non_fhir_term.value.to_python())
+
+        non_fhir_group = non_fhir_term = query.get_where()[2]
+        self.assertEqual(non_fhir_group.terms[0].path, "effectiveRange.effectiveRange1")
+        self.assertEqual(non_fhir_group.terms[1].path, "effectiveRange.effectiveRange2")

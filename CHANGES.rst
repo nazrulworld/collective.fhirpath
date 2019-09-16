@@ -2,10 +2,10 @@ Changelog
 =========
 
 
-0.1.1 (unreleased)
+0.2.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- first working versions, with lots of improvements.
 
 
 0.1.0 (2019-09-06)

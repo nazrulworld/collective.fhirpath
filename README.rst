@@ -32,7 +32,74 @@ collective.fhirpath
 
 
 
-`fhirpath`_ implementation in Plone.
+`fhirpath`_ implementation in Plone, battery included, ready to use.
+
+
+Usages
+------
+
+FHIR Search::
+    >>> from fhirpath.enums import FHIR_VERSION
+    >>> from fhirpath.interfaces import IElasticsearchEngineFactory
+    >>> from fhirpath.interfaces import IFhirSearch
+    >>> from fhirpath.interfaces import ISearchContextFactory
+    >>> from plone import api
+    >>> from collective.elasticsearch.es import ElasticSearchCatalog
+    >>> from zope.component import queryMultiAdapter
+
+    >>> es_catalog = ElasticSearchCatalog(api.portal.get_tool("portal_catalog"))
+    >>> factory = queryMultiAdapter(
+    ....        (es_catalog,), IElasticsearchEngineFactory
+    .... )
+    >>> engine = factory(fhir_version=FHIR_VERSION.STU3)
+    >>> search_context = queryMultiAdapter((engine,), ISearchContextFactory)(
+    .... resource_type, unrestricted=False)
+    >>> search_factory = queryMultiAdapter((search_context,), IFhirSearch)
+
+    >>> params = (
+    ....        ("_profile", "http://hl7.org/fhir/Organization"),
+    ....        ("identifier", "urn:oid:2.16.528.1|91654"),
+    ....        ("type", "http://hl7.org/fhir/organization-type|prov"),
+    ....        ("address-postalcode", "9100 AA"),
+    ....        ("address", "Den Burg"),
+    ....    )
+    >>> bundle = search_factory(params)
+    >>> len(bundle.entry)
+    2
+
+
+FHIR Query::
+
+    >>> from fhirpath.enums import FHIR_VERSION
+    >>> from fhirpath.interfaces import IElasticsearchEngineFactory
+    >>> from fhirpath.interfaces import IFhirSearch
+    >>> from fhirpath.interfaces import ISearchContextFactory
+    >>> from plone import api
+    >>> from collective.elasticsearch.es import ElasticSearchCatalog
+    >>> from zope.component import queryMultiAdapter
+    >>> from fhirpath.query import Q_
+    >>> from fhirpath.fql import T_
+    >>> from fhirpath.fql import sort_
+    >>> from fhirpath.enums import SortOrderType
+
+    >>> es_catalog = ElasticSearchCatalog(api.portal.get_tool("portal_catalog"))
+    >>> factory = queryMultiAdapter(
+    ....        (es_catalog,), IElasticsearchEngineFactory
+    .... )
+    >>> engine = factory(fhir_version=FHIR_VERSION.STU3)
+    >>> query_builder = Q_(resource="Organization", engine=engine)
+    ....    query_builder = query_builder.where(
+    ....        T_("Organization.meta.profile", "http://hl7.org/fhir/Organization")
+    ....    ).sort(sort_("Organization.meta.lastUpdated", SortOrderType.DESC))
+
+    >>> result = query_builder(async_result=False, unrestricted=True).fetchall()
+    >>> result.header.total
+    2
+    >>> query_result = query_builder(async_result=False, unrestricted=True)
+    >>> for resource in query_result:
+    ....        count += 1
+    ....        assert resource.__class__.__name__ == "OrganizationModel"
+
 
 
 Documentation

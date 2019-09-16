@@ -45,7 +45,7 @@ docs_requirements = [
 
 setup(
     name="collective.fhirpath",
-    version="0.1.1.dev0",
+    version="0.2.0.dev0",
     description="Plone powered provider for fhirpath",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -71,7 +71,7 @@ setup(
         "PyPI": "https://pypi.python.org/pypi/collective.fhirpath",
         "Source": "https://github.com/collective/collective.fhirpath",
         "Tracker": "https://github.com/collective/collective.fhirpath/issues",
-        # 'Documentation': 'https://collective.fhirpath.readthedocs.io/en/latest/',
+        'Documentation': 'https://collective-fhirpath.readthedocs.io/en/latest/',
     },
     license="GPL version 2",
     packages=find_packages("src", exclude=["ez_setup"]),
