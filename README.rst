@@ -99,6 +99,21 @@ FHIR Query::
     ....        count += 1
     ....        assert resource.__class__.__name__ == "OrganizationModel"
 
+    >>> query_builder = Q_(resource="Organization", engine=engine)
+    >>> query_builder = query_builder.where(T_("Organization.id", "f001"))
+    >>> result_query = query_builder(async_result=False, unrestricted=True)
+    >>> resource = result_query.single()
+    >>> resource is not None
+    True
+
+    >>> query_builder = Q_(resource="Organization", engine=engine)
+    >>> query_builder = query_builder.where(
+    ....        T_("Organization.meta.profile", "http://hl7.org/fhir/Organization")
+    ....    )
+    >>> result_query = builder(async_result=False, unrestricted=True)
+    >>> result = result_query.first()
+    >>> isinstance(result, result_query._query.get_from()[0][1])
+    True
 
 
 Documentation
