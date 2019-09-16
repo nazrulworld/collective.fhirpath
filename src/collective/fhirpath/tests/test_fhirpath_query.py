@@ -3,6 +3,7 @@ from collective.elasticsearch.es import ElasticSearchCatalog
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.enums import SortOrderType
+from fhirpath.exceptions import MultipleResultsFound
 from fhirpath.fql import not_
 from fhirpath.fql import sort_
 from fhirpath.fql import T_
@@ -95,3 +96,41 @@ class FhirPathPloneQueryFunctionalTest(BaseFunctionalTesting):
 
         result = builder(async_result=False, unrestricted=True).fetchall()
         self.assertEqual(result.header.total, 3)
+
+    def test_single_query(self):
+        """ """
+        self.load_contents()
+
+        engine = self.get_engine()
+        builder = Q_(resource="Organization", engine=engine)
+        builder = builder.where(
+            T_("Organization.id", "f001")
+        )
+        result_query = builder(async_result=False, unrestricted=True)
+        self.assertIsNotNone(result_query.single())
+
+        builder = Q_(resource="Organization", engine=engine)
+        builder = builder.where(
+            T_("Organization.meta.profile", "http://hl7.org/fhir/Organization")
+        )
+        result_query = builder(async_result=False, unrestricted=True)
+        try:
+            result_query.single()
+            raise AssertionError(
+                "Code should not come here, as multiple resources should in result"
+            )
+        except MultipleResultsFound:
+            pass
+
+    def test_first_query(self):
+        """ """
+        self.load_contents()
+
+        engine = self.get_engine()
+        builder = Q_(resource="Organization", engine=engine)
+        builder = builder.where(
+            T_("Organization.meta.profile", "http://hl7.org/fhir/Organization")
+        )
+        result_query = builder(async_result=False, unrestricted=True)
+        result = result_query.first()
+        self.assertIsInstance(result, result_query._query.get_from()[0][1])

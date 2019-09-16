@@ -1,7 +1,6 @@
-===================
-collective.fhirpath
-===================
-
+============
+Introduction
+============
 
 .. image:: https://img.shields.io/pypi/status/plone.app.fhirfield.svg
     :target: https://pypi.python.org/pypi/plone.app.fhirfield/
