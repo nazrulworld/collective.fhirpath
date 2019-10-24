@@ -7,7 +7,9 @@ from fhirpath.interfaces import IFhirSearch
 from fhirpath.interfaces import ISearchContextFactory
 from plone import api
 from plone.app.fhirfield.tests.base import BaseFunctionalTesting
+from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import TEST_USER_ID
 from zope.component import queryMultiAdapter
 
 
@@ -57,8 +59,8 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
 
     def test_permission_aware_search(self):
         """ """
+        setRoles(self.portal, TEST_USER_ID, ["Reader"])
         self.load_contents()
-
         params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
         search_factory = self.get_factory("Organization", False)
 
@@ -69,9 +71,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
             self.assertEqual(len(bundle.entry), 1)
 
         bundle = search_factory(params)
-        # xxx: some how permission aware query is not working!
-        # have to look immediately
-        # self.assertEqual(len(bundle.entry), 1)
+        self.assertEqual(len(bundle.entry), 1)
 
     def test_array_type_reference(self):
         """Search where reference inside List """
@@ -179,10 +179,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
 
         search_factory = self.get_factory("Task", True)
         # Test ascending order
-        params = (
-            ("status:missing", "false"),
-            ("_sort", "_lastUpdated")
-        )
+        params = (("status:missing", "false"), ("_sort", "_lastUpdated"))
         bundle = search_factory(params)
 
         self.assertGreater(
@@ -194,10 +191,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
             bundle.entry[1].resource.meta.lastUpdated.date,
         )
         # Test descending order
-        params = (
-            ("status:missing", "false"),
-            ("_sort", "-_lastUpdated")
-        )
+        params = (("status:missing", "false"), ("_sort", "-_lastUpdated"))
         bundle = search_factory(params)
         self.assertGreater(
             bundle.entry[0].resource.meta.lastUpdated.date,

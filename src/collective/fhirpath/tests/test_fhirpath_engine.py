@@ -56,5 +56,7 @@ class FhirpathPloneEngineIntegrationTest(unittest.TestCase):
         self.assertIn("user:test_user_1_", non_fhir_term.value.to_python())
 
         non_fhir_group = non_fhir_term = query.get_where()[2]
-        self.assertEqual(non_fhir_group.terms[0].path, "effectiveRange.effectiveRange1")
-        self.assertEqual(non_fhir_group.terms[1].path, "effectiveRange.effectiveRange2")
+        self.assertEqual(non_fhir_group.path, "effectiveRange.effectiveRange1")
+
+        non_fhir_group = non_fhir_term = query.get_where()[3]
+        self.assertEqual(non_fhir_group.path, "effectiveRange.effectiveRange2")

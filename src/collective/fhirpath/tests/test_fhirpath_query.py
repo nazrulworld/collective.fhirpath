@@ -103,9 +103,7 @@ class FhirPathPloneQueryFunctionalTest(BaseFunctionalTesting):
 
         engine = self.get_engine()
         builder = Q_(resource="Organization", engine=engine)
-        builder = builder.where(
-            T_("Organization.id", "f001")
-        )
+        builder = builder.where(T_("Organization.id", "f001"))
         result_query = builder(async_result=False, unrestricted=True)
         self.assertIsNotNone(result_query.single())
 
@@ -133,4 +131,6 @@ class FhirPathPloneQueryFunctionalTest(BaseFunctionalTesting):
         )
         result_query = builder(async_result=False, unrestricted=True)
         result = result_query.first()
-        self.assertIsInstance(result, result_query._query.get_from()[0][1])
+        self.assertEqual(
+            result[0]["resourceType"], result_query._query.get_from()[0][0]
+        )

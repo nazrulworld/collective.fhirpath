@@ -3,4 +3,4 @@
 from zope.i18nmessageid import MessageFactory
 
 
-_ = MessageFactory('collective.fhirpath')
+_ = MessageFactory("collective.fhirpath")

@@ -2,9 +2,6 @@
 from collective.elasticsearch.interfaces import IElasticSearchCatalog
 from DateTime import DateTime
 from fhirpath.engine.es import ElasticsearchEngine as BaseEngine
-from fhirpath.enums import GroupType
-from fhirpath.enums import MatchType
-from fhirpath.fql import G_
 from fhirpath.fql import T_
 from fhirpath.interfaces import IIgnoreNestedCheck
 from fhirpath.types import FhirDateTime
@@ -74,15 +71,14 @@ class ElasticsearchEngine(BaseEngine):
             value = FhirDateTime(FhirDateTime(DateTime().ISO8601()))
             terms = list()
             term = T_("effectiveRange.effectiveRange1", non_fhir=True) <= value
+            alsoProvides(term, IIgnoreNestedCheck)
             terms.append(term)
 
             term = T_("effectiveRange.effectiveRange2", non_fhir=True) >= value
+            alsoProvides(term, IIgnoreNestedCheck)
             terms.append(term)
 
-            g = G_(*terms, path=None, type_=GroupType.COUPLED)
-            alsoProvides(g, IIgnoreNestedCheck)
-            g.match_operator = MatchType.ALL
-            filters.append(g)
+            filters.extend(terms)
 
         # Let's finalize
         for f in filters:
@@ -161,12 +157,6 @@ class ElasticsearchEngine(BaseEngine):
             url = base_url
         return url
 
-    def extract_hits(self, fieldname, hits, container):
+    def extract_hits(self, selects, hits, container):
         """ """
-        for res in hits:
-            if res["_type"] != "portal_catalog":
-                continue
-            if fieldname in res["_source"]:
-                item = res["_source"][fieldname]
-                assert len(item) > 0, "item from hits cannot be empty!"
-                container.append(item)
+        return BaseEngine.extract_hits(self, selects, hits, container, "portal_catalog")
