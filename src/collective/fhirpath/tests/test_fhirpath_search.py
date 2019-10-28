@@ -1,4 +1,5 @@
 # _*_ coding: utf-8 _*_
+from .base import BaseFunctionalTesting
 from collective.elasticsearch.es import ElasticSearchCatalog
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from fhirpath.enums import FHIR_VERSION
@@ -6,7 +7,6 @@ from fhirpath.interfaces import IElasticsearchEngineFactory
 from fhirpath.interfaces import IFhirSearch
 from fhirpath.interfaces import ISearchContextFactory
 from plone import api
-from plone.app.fhirfield.tests.base import BaseFunctionalTesting
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import TEST_USER_ID
@@ -59,7 +59,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
 
     def test_permission_aware_search(self):
         """ """
-        setRoles(self.portal, TEST_USER_ID, ["Reader"])
+        setRoles(self.portal, TEST_USER_ID, ["Patient"])
         self.load_contents()
         params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
         search_factory = self.get_factory("Organization", False)

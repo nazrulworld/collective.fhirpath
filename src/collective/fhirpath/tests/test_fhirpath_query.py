@@ -1,4 +1,5 @@
 # _*_ coding: utf-8 _*_
+from .base import BaseFunctionalTesting
 from collective.elasticsearch.es import ElasticSearchCatalog
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from fhirpath.enums import FHIR_VERSION
@@ -10,7 +11,6 @@ from fhirpath.fql import T_
 from fhirpath.interfaces import IElasticsearchEngineFactory
 from fhirpath.query import Q_
 from plone import api
-from plone.app.fhirfield.tests.base import BaseFunctionalTesting
 from zope.component import queryMultiAdapter
 
 

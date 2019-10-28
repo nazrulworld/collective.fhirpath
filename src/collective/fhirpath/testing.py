@@ -39,10 +39,11 @@ class CollectiveFhirpathLayer(PloneSandboxLayer):
         self.loadZCML(package=collective.fhirpath)
 
     def setUpPloneSite(self, portal):
+        """ """
         applyProfile(portal, "collective.elasticsearch:default")
         applyProfile(portal, "plone.app.fhirfield:default")
-        applyProfile(portal, "plone.app.fhirfield:testing")
         applyProfile(portal, "collective.fhirpath:default")
+        applyProfile(portal, "collective.fhirpath:testing")
 
 
 COLLECTIVE_FHIRPATH_FIXTURE = CollectiveFhirpathLayer()
@@ -56,5 +57,10 @@ COLLECTIVE_FHIRPATH_INTEGRATION_TESTING = IntegrationTesting(
 
 COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(COLLECTIVE_FHIRPATH_FIXTURE,),
+    name="CollectiveFhirpathLayer:FunctionalTesting",
+)
+
+COLLECTIVE_FHIRPATH_REST_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(COLLECTIVE_FHIRPATH_FIXTURE, z2.ZSERVER_FIXTURE),
     name="CollectiveFhirpathLayer:FunctionalTesting",
 )
