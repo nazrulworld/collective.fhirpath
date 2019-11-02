@@ -1,15 +1,16 @@
 # _*_ coding: utf-8 _*_
 from .base import BaseFunctionalTesting
 from collective.elasticsearch.es import ElasticSearchCatalog
-from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.interfaces import IElasticsearchEngineFactory
 from fhirpath.interfaces import IFhirSearch
 from fhirpath.interfaces import ISearchContextFactory
 from plone import api
+from plone.app.testing import login
+from plone.app.testing import logout
 from plone.app.testing import setRoles
-from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from zope.component import queryMultiAdapter
 
 
@@ -18,8 +19,6 @@ __author__ = "Md Nazrul Islam <email2nazrul@gmail.com>"
 
 class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
     """ """
-
-    layer = COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 
     def get_es_catalog(self):
         """ """
@@ -59,16 +58,17 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
 
     def test_permission_aware_search(self):
         """ """
-        setRoles(self.portal, TEST_USER_ID, ["Patient"])
         self.load_contents()
         params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
         search_factory = self.get_factory("Organization", False)
 
-        with api.env.adopt_user(username=SITE_OWNER_NAME):
-            bundle = search_factory(params)
-            # xxx: some how permission aware query is not working!
-            # have to look immediately
-            self.assertEqual(len(bundle.entry), 1)
+        bundle = search_factory(params)
+        # xxx: some how permission aware query is not working!
+        # have to look immediately
+        self.assertEqual(len(bundle.entry), 1)
+        logout()
+        login(self.portal, TEST_USER_NAME)
+        setRoles(self.portal, TEST_USER_ID, ["Patient"])
 
         bundle = search_factory(params)
         self.assertEqual(len(bundle.entry), 1)
@@ -76,6 +76,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
     def test_array_type_reference(self):
         """Search where reference inside List """
         self.load_contents()
+
         search_factory = self.get_factory("Task", True)
 
         # Search with based on
@@ -132,6 +133,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
 
     def test_reference_param(self):
         """Testing FHIR search reference type params, i.e subject, owner"""
+
         self.load_contents()
 
         search_factory = self.get_factory("Task", True)

@@ -6,8 +6,10 @@ from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_REST_FUNCTIONAL_TESTING
 from DateTime import DateTime
 from plone import api
+from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
+from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
 from plone.testing import z2
 from zope.component import getUtility
@@ -25,6 +27,12 @@ __author__ = "Md Nazrul Islam <email2nazrul@gmail.com>"
 
 BASE_TEST_PATH = pathlib.Path(os.path.dirname(os.path.abspath(__file__)))
 FHIR_FIXTURE_PATH = BASE_TEST_PATH / "fixture" / "FHIR"
+PATIENT_USER_NAME = "patient_one"
+PATIENT_USER_PASS = "12345"
+PATIENT_USER2_NAME = "patient_two"
+PATIENT_USER2_PASS = "12345"
+PRACTITIONER_USER_NAME = "practitioner_one"
+PRACTITIONER_USER_PASS = "12345"
 
 
 def clearTransactionEntries(es):
@@ -62,26 +70,27 @@ def setup_es(self, es_only_indexes={u"Title", u"Description", u"SearchableText"}
 class BaseTesting(unittest.TestCase):
     """" """
 
-    def setUp(self):
-        """ """
-        self.portal = self.layer["portal"]
-        self.portal_url = api.portal.get_tool("portal_url")()
-        self.portal_catalog_url = api.portal.get_tool("portal_catalog").absolute_url()
-
-        setup_es(self)
-        # need to commit here so all tests start with a baseline
-        # of elastic enabled
-        self.commit()
-
     def commit(self):
         transaction.commit()
+
+    def create_member(self, username, password, roles=["Member"], **properties):
+        """ """
+        acl_users = getattr(self.portal, "acl_users")
+        mt = getattr(self.portal, "portal_membership")
+
+        acl_users.userFolderAddUser(username, password, roles=roles, domains=[])
+        member = mt.getMemberById(username)  # noqa: P001
+        if len(properties) > 0:
+            member.setMemberProperties(dict(properties))
+
+        return member
 
     def enable_event_log(self, loggers=None, plone_log_level="ERROR"):
         """
             :param loggers: dict of loggers. format {'logger name': 'level name'}
             :param plone_log_level: log level of plone. default is ERROR
          """
-        defaults = {"plone.app.fhirfield": "INFO", "collective.elasticsearch": "DEBUG"}
+        defaults = {"collective.fhirpath": "INFO", "collective.elasticsearch": "DEBUG"}
         from Products.CMFPlone.log import logger
 
         loggers = loggers or defaults
@@ -142,7 +151,6 @@ class BaseTesting(unittest.TestCase):
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         org1_url = self.admin_browser.url.replace("/view", "")
-
         self.admin_browser.open(self.portal_url + "/++add++Organization")
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
@@ -245,7 +253,7 @@ class BaseTesting(unittest.TestCase):
         # Let's flush
         self.es.connection.indices.flush()
 
-        return (
+        return [
             org1_url,
             org2_url,
             org3_url,
@@ -253,7 +261,7 @@ class BaseTesting(unittest.TestCase):
             task1_url,
             task2_url,
             task3_url,
-        )
+        ]
 
     def tearDown(self):
         """ """
@@ -268,7 +276,12 @@ class BaseFunctionalTesting(BaseTesting):
 
     def setUp(self):
         """ """
-        super(BaseFunctionalTesting, self).setUp()
+        self.portal = self.layer["portal"]
+        self.portal_url = api.portal.get_tool("portal_url")()
+        self.portal_catalog_url = api.portal.get_tool("portal_catalog").absolute_url()
+
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        setup_es(self)
 
         self.anon_browser = z2.Browser(self.layer["app"])
         self.error_setup(self.anon_browser)
@@ -281,6 +294,26 @@ class BaseFunctionalTesting(BaseTesting):
         self.error_setup(self.admin_browser)
 
         self.enable_event_log()
+        self.create_member(
+            username=PATIENT_USER_NAME,
+            password=PATIENT_USER_PASS,
+            email=PATIENT_USER_NAME + "@example.org",
+        )
+
+        self.create_member(
+            username=PATIENT_USER2_NAME,
+            password=PATIENT_USER2_PASS,
+            email=PATIENT_USER2_NAME + "@example.org",
+        )
+
+        self.create_member(
+            username=PRACTITIONER_USER_NAME,
+            password=PRACTITIONER_USER_PASS,
+            email=PRACTITIONER_USER_NAME + "@example.org",
+        )
+        # need to commit here so all tests start with a baseline
+        # of elastic enabled
+        self.commit()
 
     def error_setup(self, browser):
         """ """
@@ -305,4 +338,4 @@ class BaseRestFunctionalTesting(BaseTesting):
 
     def setUp(self):
         """ """
-        super(BaseFunctionalTesting, self).setUp()
+        super(BaseRestFunctionalTesting, self).setUp()

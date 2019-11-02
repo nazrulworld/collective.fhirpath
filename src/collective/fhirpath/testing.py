@@ -62,5 +62,5 @@ COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING = FunctionalTesting(
 
 COLLECTIVE_FHIRPATH_REST_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(COLLECTIVE_FHIRPATH_FIXTURE, z2.ZSERVER_FIXTURE),
-    name="CollectiveFhirpathLayer:FunctionalTesting",
+    name="CollectiveFhirpathLayer:RestFunctionalTesting",
 )
