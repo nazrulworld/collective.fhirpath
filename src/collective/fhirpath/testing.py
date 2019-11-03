@@ -4,7 +4,7 @@ from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
-from plone.testing import z2
+from plone.testing import zope as z2
 
 import os
 
@@ -31,12 +31,11 @@ class CollectiveFhirpathLayer(PloneSandboxLayer):
         import plone.app.fhirfield
 
         self.loadZCML(package=plone.app.fhirfield)
-        # initialize method not calling automatically
-        z2.installProduct(app, "plone.app.fhirfield")
 
         import collective.fhirpath
-
         self.loadZCML(package=collective.fhirpath)
+        # initialize method not calling automatically
+        z2.installProduct(app, "collective.fhirpath")
 
     def setUpPloneSite(self, portal):
         """ """
@@ -61,6 +60,6 @@ COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING = FunctionalTesting(
 )
 
 COLLECTIVE_FHIRPATH_REST_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(COLLECTIVE_FHIRPATH_FIXTURE, z2.ZSERVER_FIXTURE),
+    bases=(COLLECTIVE_FHIRPATH_FIXTURE, z2.WSGI_SERVER_FIXTURE),
     name="CollectiveFhirpathLayer:RestFunctionalTesting",
 )
