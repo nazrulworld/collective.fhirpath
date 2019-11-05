@@ -2,10 +2,12 @@ Changelog
 =========
 
 
-0.2.1 (unreleased)
+0.3.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Improvements
+
+- Legacy zcatalog fhir search added.
 
 
 0.2.0 (2019-09-16)
