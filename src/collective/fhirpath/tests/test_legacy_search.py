@@ -2,6 +2,7 @@
 from .base import BaseFunctionalTesting
 from .base import FHIR_FIXTURE_PATH
 from collective.elasticsearch.es import ElasticSearchCatalog
+from collective.fhirpath.interfaces import IZCatalogFhirSearch
 from collective.fhirpath.legacy import zcatalog_fhir_search
 from DateTime import DateTime
 from fhirpath.enums import FHIR_VERSION
@@ -38,13 +39,17 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         )
         return context
 
-    def test_basic_search(self):
+    def test_search_using_zcatalog_factory(self):
         """ """
         self.load_contents()
 
         params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
         context = self.get_context("Organization", True)
-        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        factory = queryMultiAdapter(
+            (context,), IZCatalogFhirSearch
+        )
+
+        brains = factory(query_string=urlencode(params))
 
         self.assertEqual(len(brains), 1)
         params = (
@@ -54,7 +59,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             ("address-postalcode", "9100 AA"),
             ("address", "Den Burg"),
         )
-        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        brains = factory(query_string=urlencode(params))
         self.assertEqual(len(brains), 2)
 
     def test_catalogsearch_fhir_date_param(self):

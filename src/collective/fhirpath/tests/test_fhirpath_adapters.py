@@ -1,5 +1,6 @@
 # _*_ coding: utf-8 _*_
 from collective.elasticsearch.es import ElasticSearchCatalog
+from collective.fhirpath.interfaces import IZCatalogFhirSearch
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_INTEGRATION_TESTING
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.interfaces import IElasticsearchEngineFactory
@@ -59,4 +60,15 @@ class AdatptersIntegrationTest(unittest.TestCase):
         context = queryMultiAdapter((engine,), ISearchContextFactory)("Organization")
 
         factory = queryMultiAdapter((context,), IFhirSearch)
+        self.assertIsNotNone(factory)
+
+    def test_zcatalog_search_factory_creation(self):
+        """ """
+        engine = queryMultiAdapter(
+            (self.get_es_catalog(),), IElasticsearchEngineFactory
+        )(fhir_version=FHIR_VERSION.STU3)
+
+        context = queryMultiAdapter((engine,), ISearchContextFactory)("Organization")
+
+        factory = queryMultiAdapter((context,), IZCatalogFhirSearch)
         self.assertIsNotNone(factory)

@@ -1,6 +1,8 @@
 # _*_ coding: utf-8 _*_
 from .dialect import ElasticSearchDialect
 from .engine import ElasticsearchEngine
+from .interfaces import IZCatalogFhirSearch
+from .legacy import zcatalog_fhir_search
 from collective.elasticsearch.interfaces import IElasticSearchCatalog
 from fhirpath.connectors.factory.es import ElasticsearchConnection
 from fhirpath.enums import FHIR_VERSION
@@ -11,6 +13,8 @@ from fhirpath.interfaces import ISearchContext
 from fhirpath.interfaces import ISearchContextFactory
 from fhirpath.search import fhir_search
 from fhirpath.search import SearchContext
+from plone.api.validation import at_least_one_of
+from plone.api.validation import mutually_exclusive_parameters
 from zope.component import adapter
 from zope.interface import implementer
 
@@ -84,3 +88,21 @@ class FhirSearch:
     def __call__(self, params):
         """ """
         return fhir_search(self.context, params=params)
+
+
+@implementer(IZCatalogFhirSearch)
+@adapter(ISearchContext)
+class ZCatalogFhirSearch:
+    """ """
+
+    def __init__(self, context):
+        """ """
+        self.context = context
+
+    @at_least_one_of("query_string", "params")
+    @mutually_exclusive_parameters("query_string", "params")
+    def __call__(self, query_string=None, params=None):
+        """ """
+        return zcatalog_fhir_search(
+            self.context, query_string=query_string, params=params
+        )
