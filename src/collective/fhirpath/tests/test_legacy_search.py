@@ -352,11 +352,10 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         )
 
     def test_quantity_type_search(self):
-        """Issue: https://github.com/nazrulworld/plone.app.fhirfield/issues/7"""
-        return
-        self.load_contents()
+        """ """
+        results = self.load_contents()
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
 
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
@@ -370,31 +369,31 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ).value = json.dumps(fhir_json)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
-        self.assertIn("ffchargeitem/view", self.admin_browser.url)
+        self.assertIn("chargeitem/view", self.admin_browser.url)
         # Let's flush
         self.es.connection.indices.flush()
         # Test so normal
-        factory = self.get_factory("ChargeItem", unrestricted=True)
+        context = self.get_context("ChargeItem", True)
 
         # Test ascending order
         params = (("quantity", "5"),)
-        bundle = factory(params)
-        self.assertEqual(bundle.total, 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         params = (("quantity", "lt5.1"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # Test with value code/unit and system
         params = (("price-override", "gt39.99|urn:iso:std:iso:4217|EUR"),)
-        bundle = factory(params)
-        self.assertEqual(bundle.total, 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # Test with code/unit and system
         params = (("price-override", "40||EUR"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
-        self.assertEqual(len(bundle.entry), 1)
+        self.assertEqual(len(brains), 1)
         # Test Issue#21
         fhir_json_copy = copy.deepcopy(fhir_json)
         fhir_json_copy["id"] = str(uuid.uuid4())
@@ -404,7 +403,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         fhir_json_copy["quantity"]["value"] = 3
         fhir_json_copy["factorOverride"] = 0.54
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill (USD)"
@@ -422,7 +421,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         fhir_json_copy["quantity"]["value"] = 8
         fhir_json_copy["factorOverride"] = 0.21
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill(BDT)"
@@ -440,14 +439,14 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
                 "gt39.99|urn:iso:std:iso:4217|EUR,le850|urn:iso:std:iso:4217|BDT",
             ),
         )
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
-        self.assertEqual(len(bundle.entry), 2)
+        self.assertEqual(len(brains), 2)
 
         params = (("price-override", "ge12,le850"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # should be all three now
-        self.assertEqual(len(bundle.entry), 3)
+        self.assertEqual(len(brains), 3)
         # serach by only system and code
         params = (
             (
@@ -459,22 +458,21 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
                 ),
             ),
         )
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # should be 2
-        self.assertEqual(len(bundle.entry), 2)
+        self.assertEqual(len(brains), 2)
 
         # serach by unit only
         params = (("price-override", "|BDT,|DKK"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # should be one
-        self.assertEqual(len(bundle.entry), 1)
+        self.assertEqual(len(brains), 1)
 
     def test_number_type_search(self):
-        return
-        """Issue: https://github.com/nazrulworld/plone.app.fhirfield/issues/8"""
-        self.load_contents()
+        """ """
+        results = self.load_contents()
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
 
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
@@ -492,23 +490,23 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         # Let's flush
         self.es.connection.indices.flush()
         # Test so normal
-        factory = self.get_factory("ChargeItem", unrestricted=True)
+        context = self.get_context("ChargeItem", True)
 
         # Test normal float value order
         params = (("factor-override", "0.8"),)
-        bundle = factory(params)
-        self.assertEqual(bundle.total, 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         params = (("factor-override", "gt0.79"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # Test for Encounter
-        self.admin_browser.open(self.portal_url + "/++add++FFEncounter")
+        self.admin_browser.open(results[3] + "/++add++Encounter")
 
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
-        ).value = "Test FFEncounter"
+        ).value = "Test Encounter"
 
         with open(os.path.join(FHIR_FIXTURE_PATH, "Encounter.json"), "r") as f:
             fhir_json = json.load(f)
@@ -521,12 +519,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         # Let's flush
         self.es.connection.indices.flush()
 
-        factory = self.get_factory("Encounter", unrestricted=True)
+        context = self.get_context("Encounter", True)
 
         params = (("length", "gt139"),)
 
-        bundle = factory(params)
-        self.assertEqual(bundle.total, 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # Test Issue#21
         fhir_json_copy = copy.deepcopy(fhir_json_charge_item)
@@ -537,7 +535,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         fhir_json_copy["quantity"]["value"] = 3
         fhir_json_copy["factorOverride"] = 0.54
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill (USD)"
@@ -555,7 +553,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         fhir_json_copy["quantity"]["value"] = 8
         fhir_json_copy["factorOverride"] = 0.21
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill(BDT)"
@@ -567,22 +565,21 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         # Let's flush
         self.es.connection.indices.flush()
         # Test with multiple equal values
-        factory = self.get_factory("ChargeItem", unrestricted=True)
+        context = self.get_context("ChargeItem", True)
         params = (("factor-override", "0.8,0.21"),)
-        bundle = factory(params)
-        self.assertEqual(bundle.total, 2)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 2)
 
         params = (("factor-override", "gt0.8,lt0.54"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
-        self.assertEqual(bundle.total, 1)
+        self.assertEqual(len(brains), 1)
 
-    def test_issue_12(self):
-        return
-        """Issue: https://github.com/nazrulworld/plone.app.fhirfield/issues/12"""
-        self.load_contents()
+    def test_code_datatype(self):
+        """ """
+        results = self.load_contents()
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
 
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
@@ -600,33 +597,33 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.es.connection.indices.flush()
 
         # Test code (Coding)
-        factory = self.get_factory("ChargeItem", unrestricted=True)
+        context = self.get_context("ChargeItem", True)
 
         params = (("code", "F01510"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # Test with system+code
         params = (("code", "http://snomed.info/sct|F01510"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # test with code only
         params = (("code", "|F01510"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # test with system only
         params = (("code", "http://snomed.info/sct|"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # test with text
         params = (("code:text", "Nice Code"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
         # test with .as(
-        self.admin_browser.open(self.portal_url + "/++add++FFMedicationRequest")
+        self.admin_browser.open(results[3] + "/++add++MedicationRequest")
 
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
@@ -644,74 +641,70 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.es.connection.indices.flush()
 
         # test with only code
-        factory = self.get_factory("MedicationRequest", unrestricted=True)
+        context = self.get_context("MedicationRequest", True)
         params = (("code", "322254008"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # test with system and code
         params = (("code", "http://snomed.info/sct|"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
-    def test_issue_13_address_telecom(self):
-        return
-        """https://github.com/nazrulworld/plone.app.fhirfield/issues/13"""
+    def test_address_contactpoint(self):
+        """ """
         self.load_contents()
 
-        factory = self.get_factory("Patient", unrestricted=True)
+        context = self.get_context("Patient", True)
         params = (("email", "demo1@example.com"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
-        self.assertEqual(bundle.total, 1)
+        self.assertEqual(len(brains), 1)
 
         # Test address with multiple paths and value for city
         params = (("address", "Indianapolis"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # Test address with multiple paths and value for postCode
         params = (("address", "46240"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # Test with single path for state
         params = (("address-state", "IN"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
-        self.assertEqual(len(bundle.entry), 1)
+        self.assertEqual(len(brains), 1)
 
-    def test_issue_15_address_telecom(self):
-        return
-        """https://github.com/nazrulworld/plone.app.fhirfield/issues/15"""
+    def test_humanname(self):
+        """ """
         self.load_contents()
 
         # test with family name
-        factory = self.get_factory("Patient", unrestricted=True)
+        context = self.get_context("Patient", True)
 
         params = (("family", "Saint"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
-        self.assertEqual(len(bundle.entry), 1)
+        self.assertEqual(len(brains), 1)
 
         # test with given name (array)
         params = (("given", "Eelector"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
-        self.assertEqual(len(bundle.entry), 1)
+        self.assertEqual(len(brains), 1)
 
         # test with full name represent as text
         params = (("name", "Patient Saint"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
-    def test_issue_10(self):
-        return
-        """Composite type param:
-        https://github.com/nazrulworld/plone.app.fhirfield/issues/10"""
-        self.load_contents()
+    def test_composite_type(self):
+        """ """
+        results = self.load_contents()
 
-        self.admin_browser.open(self.portal_url + "/++add++FFObservation")
+        self.admin_browser.open(results[3] + "/++add++Observation")
 
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
@@ -729,36 +722,31 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         # Let's flush
         self.es.connection.indices.flush()
 
-        factory = self.get_factory("Observation", unrestricted=True)
+        context = self.get_context("Observation", True)
         # Test simple composite
         params = (("code-value-quantity", "http://loinc.org|11557-6&6.2"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
-    def test_issue_17(self):
-        return
-        """Support for duplicate param name/value
-        https://github.com/nazrulworld/plone.app.fhirfield/issues/17"""
+    def test_multiple_params_value(self):
+        """ """
         self.load_contents()
-
-        factory = self.get_factory("Task", unrestricted=True)
+        context = self.get_context("Task", True)
         params = [
             ("_lastUpdated", "gt2015-10-15T06:31:18+00:00"),
             ("_lastUpdated", "lt2018-01-15T06:31:18+00:00"),
         ]
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
-        self.assertEqual(bundle.total, 1)
+        self.assertEqual(len(brains), 1)
 
-    def test_issue_21(self):
-        """Add Support for IN/OR query for token and other if possible search type
-        https://github.com/nazrulworld/plone.app.fhirfield/issues/21"""
-        return
-        self.load_contents()
+    def test_IN_OR(self):
+        """ """
+        results = self.load_contents()
         new_id = str(uuid.uuid4())
         new_patient_id = str(uuid.uuid4())
         new_procedure_request_id = str(uuid.uuid4())
-        self.admin_browser.open(self.portal_url + "/++add++FFTask")
+        self.admin_browser.open(results[3] + "/++add++Task")
 
         with open(os.path.join(FHIR_FIXTURE_PATH, "SubTask_HAQ.json"), "r") as f:
             json_value = json.load(f)
@@ -783,11 +771,11 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         # Let's flush
         self.es.connection.indices.flush()
 
-        factory = self.get_factory("Task", unrestricted=True)
+        context = self.get_context("Task", True)
         params = (("status", "ready,draft"),)
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # should All three tasks
-        self.assertEqual(bundle.total, 3)
+        self.assertEqual(len(brains), 3)
 
         params = (
             (
@@ -796,9 +784,9 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
                 + new_patient_id,
             ),
         )
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # should All three tasks + one
-        self.assertEqual(bundle.total, 4)
+        self.assertEqual(len(brains), 4)
 
         params = (
             (
@@ -810,15 +798,14 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
                 + new_procedure_request_id,
             ),
         )
-        bundle = factory(params)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # should two tasks
-        self.assertEqual(len(bundle.entry), 2)
+        self.assertEqual(len(brains), 2)
 
     def test_issue_21_code_and_coding(self):
-        return
         """Add Support for IN/OR query for token and other if possible search type
-        https://github.com/nazrulworld/plone.app.fhirfield/issues/21"""
-        self.load_contents()
+        """
+        results = self.load_contents()
         with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "r") as f:
             fhir_json = json.load(f)
 
@@ -833,7 +820,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ]
         fhir_json_copy["code"]["text"] = "Paracetamol (substance)"
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill (USD)"
@@ -854,7 +841,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ]
         fhir_json_copy["code"]["text"] = "Omeprazole (substance)"
 
-        self.admin_browser.open(self.portal_url + "/++add++FFChargeItem")
+        self.admin_browser.open(results[3] + "/++add++ChargeItem")
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill(BDT)"
@@ -866,11 +853,11 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         # Let's flush
         self.es.connection.indices.flush()
 
-        factory = self.get_factory("ChargeItem", unrestricted=False)
+        context = self.get_context("ChargeItem", True)
 
         params = (("code", "387517004,387137007"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 2)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 2)
 
         # Test with system+code with negetive
         params = (
@@ -882,20 +869,19 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
                 ),
             ),
         )
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
-    def test_issue14_path_analizer(self):
+    def test_custom_path_analizer(self):
         """ """
-        return
-        self.load_contents()
-        factory = self.get_factory("Task", unrestricted=True)
+        results = self.load_contents()
+        context = self.get_context("Task", True)
         # Should Get All Tasks
         params = (("patient", "Patient"),)
-        bundle = factory(params)
-        self.assertEqual(bundle.total, 3)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 3)
 
-        self.admin_browser.open(self.portal_url + "/++add++FFObservation")
+        self.admin_browser.open(results[3] + "/++add++Observation")
         with open(os.path.join(FHIR_FIXTURE_PATH, "Observation.json"), "r") as f:
             json_value1 = json.load(f)
             self.admin_browser.getControl(
@@ -910,7 +896,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
 
         device_id = str(uuid.uuid4())
-        self.admin_browser.open(self.portal_url + "/++add++FFObservation")
+        self.admin_browser.open(results[3] + "/++add++Observation")
         with open(os.path.join(FHIR_FIXTURE_PATH, "Observation.json"), "r") as f:
             json_value = json.load(f)
             json_value["id"] = str(uuid.uuid4())
@@ -927,22 +913,22 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         self.es.connection.indices.flush()
 
-        factory = self.get_factory("Observation", unrestricted=True)
+        context = self.get_context("Observation", True)
         # Should One
         params = (("subject", "Device"),)
-        bundle = factory(params)
-        self.assertEqual(bundle.total, 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
 
         # Little bit complex
         params = (("subject", "Device,Patient"),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 2)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 2)
 
         # Search By Multiple Ids
         params = (("subject", device_id + "," + json_value1["subject"]["reference"]),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 2)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 2)
 
         params = (("subject", device_id),)
-        bundle = factory(params)
-        self.assertEqual(len(bundle.entry), 1)
+        brains = zcatalog_fhir_search(context, query_string=urlencode(params))
+        self.assertEqual(len(brains), 1)
