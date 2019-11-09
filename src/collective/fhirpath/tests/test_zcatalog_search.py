@@ -3,7 +3,7 @@ from .base import BaseFunctionalTesting
 from .base import FHIR_FIXTURE_PATH
 from collective.elasticsearch.es import ElasticSearchCatalog
 from collective.fhirpath.interfaces import IZCatalogFhirSearch
-from collective.fhirpath.legacy import zcatalog_fhir_search
+from collective.fhirpath.zcatalog import zcatalog_fhir_search
 from DateTime import DateTime
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.interfaces import IElasticsearchEngineFactory

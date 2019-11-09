@@ -33,6 +33,7 @@ test_requires = [
     "plone.app.contenttypes",
     "plone.app.robotframework[debug]",
     "plone.app.fhirfield",
+    "collective.MockMailHost"
 ]
 
 docs_requirements = [

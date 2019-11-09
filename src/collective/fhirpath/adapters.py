@@ -2,7 +2,7 @@
 from .dialect import ElasticSearchDialect
 from .engine import ElasticsearchEngine
 from .interfaces import IZCatalogFhirSearch
-from .legacy import zcatalog_fhir_search
+from .zcatalog import zcatalog_fhir_search
 from collective.elasticsearch.interfaces import IElasticSearchCatalog
 from fhirpath.connectors.factory.es import ElasticsearchConnection
 from fhirpath.enums import FHIR_VERSION
@@ -85,9 +85,11 @@ class FhirSearch:
         """ """
         self.context = context
 
-    def __call__(self, params):
+    @at_least_one_of("query_string", "params")
+    @mutually_exclusive_parameters("query_string", "params")
+    def __call__(self, params=None, query_string=None):
         """ """
-        return fhir_search(self.context, params=params)
+        return fhir_search(self.context, params=params, query_string=query_string)
 
 
 @implementer(IZCatalogFhirSearch)
