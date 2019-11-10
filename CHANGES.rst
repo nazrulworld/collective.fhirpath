@@ -11,7 +11,7 @@ Improvements
 
 - ``FhirFieldIndex`` named PluginIndex is now available.
 
-- FHIR ``STU3``and ``R4``search mapping is now available.
+- FHIR ``STU3``and ``R4`` search mapping is now available.
 
 - Others improvements that make able to use in production project (of course without 🐛guarantee.)
 
