@@ -8,6 +8,7 @@ from setuptools import setup
 long_description = "\n\n".join(
     [
         open("README.rst").read(),
+        open("RESTAPI.rst").read(),
         open("CONTRIBUTORS.rst").read(),
         open("CHANGES.rst").read(),
     ]
@@ -21,7 +22,7 @@ install_requires = [
     "plone.restapi",
     "plone.app.dexterity",
     "collective.elasticsearch",
-    "fhirpath",
+    "fhirpath>=0.4.1",
 ]
 
 test_requires = [
@@ -46,13 +47,13 @@ docs_requirements = [
 
 setup(
     name="collective.fhirpath",
-    version="0.2.1.dev0",
+    version="0.3.0.dev0",
     description="Plone powered provider for fhirpath",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
     classifiers=[
         "Environment :: Web Environment",
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
         "Framework :: Plone :: 5.2",

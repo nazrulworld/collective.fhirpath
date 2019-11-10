@@ -1,7 +1,3 @@
-============
-Introduction
-============
-
 .. image:: https://img.shields.io/pypi/status/plone.app.fhirfield.svg
     :target: https://pypi.python.org/pypi/plone.app.fhirfield/
     :alt: Egg Status
@@ -30,12 +26,54 @@ Introduction
     :target: https://github.com/ambv/black
 
 
+Background (collective.fhirpath)
+================================
 
-`fhirpath`_ implementation in Plone, battery included, ready to use.
+`fhirpath`_ implementation in Plone, essential battery included, ready to use.
+
+
+Installation
+------------
+
+Install collective.fhirpath by adding it to your buildout::
+
+    [buildout]
+    ...
+    eggs +=
+        collective.fhirpath
+
+
+and then running ``bin/buildout``
+
+From Plone controlpanel in the addon settings, install ``collective.fhirpath``.
+
+How It Works
+------------
+
+**``FhirResource`` the fhirfield**
+
+Make sure this specialized field is used properly according to `plone.app.fhirfield`_ documentation.
+
+**Make field indexable**
+
+A specilized Catalog PluginIndexes is named ``FhirFieldIndex`` is available, you will use it as like other catalog indexes.
+
+Example::
+
+    <?xml version="1.0"?>
+    <object name="portal_catalog" meta_type="Plone Catalog Tool">
+        <index name="organization_resource" meta_type="FhirFieldIndex">
+            <indexed_attr value="organization_resource"/>
+        </index>
+    </object>
+
+**Elasticsearch settings**
+
+Make sure elasticsearch has been configured accourding to `collective.elasticsearch`_ docs.
 
 
 Usages
-------
+~~~~~~
 
 FHIR Search::
     >>> from fhirpath.enums import FHIR_VERSION
@@ -65,10 +103,25 @@ FHIR Search::
     >>> bundle = search_factory(params)
     >>> len(bundle.entry)
     2
+    >>> # with query string.
+    >>> # query_string = self.request["QUERY_STRING]
+    >>> query_string = "_profile=http://hl7.org/fhir/Organization&identifier=urn:oid:2.16.528.1|91654&type=http://hl7.org/fhir/organization-type|prov&address-postalcode=9100+AA"
+    >>> bundle = search_factory(query_string=query_string)
+    >>> len(bundle.entry)
+    2
 
+ZCatlog FHIR Search::
+    >>> from collective.fhirpath.interfaces import IZCatalogFhirSearch
+    >>> zcatalog_factory = queryMultiAdapter((search_context,), IZCatalogFhirSearch)
+
+    >>> # with query string.
+    >>> # query_string = self.request["QUERY_STRING]
+    >>> query_string = "_profile=http://hl7.org/fhir/Organization&identifier=urn:oid:2.16.528.1|91654&type=http://hl7.org/fhir/organization-type|prov&address-postalcode=9100+AA"
+    >>> brains = zcatalog_factory(query_string=query_string)
+    >>> len(brains)
+    2
 
 FHIR Query::
-
     >>> from fhirpath.enums import FHIR_VERSION
     >>> from fhirpath.interfaces import IElasticsearchEngineFactory
     >>> from fhirpath.interfaces import IFhirSearch
@@ -123,35 +176,19 @@ Full documentation for end users can be found in the "docs" folder,
 and is also available online at https://collective-fhirpath.readthedocs.io/
 
 
-Installation
-------------
-
-Install collective.fhirpath by adding it to your buildout::
-
-    [buildout]
-
-    ...
-
-    eggs =
-        collective.fhirpath
-
-
-and then running ``bin/buildout``
-
 
 Contribute
 ----------
 
-- Issue Tracker: https://github.com/collective/collective.fhirpath/issues
-- Source Code: https://github.com/collective/collective.fhirpath
-- Documentation: https://docs.plone.org/foo/bar
+- Issue Tracker: https://github.com/nazrulworld/collective.fhirpath/issues
+- Source Code: https://github.com/nazrulworld/collective.fhirpath
+- Documentation: https://collective-fhirpath.readthedocs.io/
 
 
 Support
 -------
 
-If you are having issues, please let us know.
-We have a mailing list located at: project@example.com
+If you are having issues, please let us know at: Md Nazrul Islam<email2nazrul@gmail.com>
 
 
 License
@@ -162,3 +199,5 @@ The project is licensed under the GPLv2.
 .. _`elasticsearch`: https://www.elastic.co/products/elasticsearch
 .. _`fhirpath`: https://pypi.org/project/fhirpath/
 .. _`PostgreSQL`: https://www.postgresql.org/
+.. _`plone.app.fhirfield`: https://pypi.org/project/plone.app.fhirfield/
+.. _`collective.elasticsearch`: https://pypi.org/project/collective.elasticsearch/

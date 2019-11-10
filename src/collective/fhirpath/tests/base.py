@@ -105,39 +105,8 @@ class BaseTesting(unittest.TestCase):
         # Enable output when running tests:
         logger.root.addHandler(logging.StreamHandler(sys.stdout))
 
-    def convert_to_elasticsearch(self, indexes=list()):
-        """ """
-        default_indexes = ["Description", "SearchableText", "Title"]
-        if indexes:
-            default_indexes.extend(indexes)
-        # first we making sure to transfer handler
-        self.admin_browser.open(self.portal_url + "/@@elastic-controlpanel")
-        self.admin_browser.getControl(
-            name="form.widgets.es_only_indexes"
-        ).value = "\n".join(default_indexes)
-        self.admin_browser.getControl(name="form.widgets.enabled:list").value = True
-        self.admin_browser.getControl(name="form.buttons.save").click()
-
-        form = self.admin_browser.getForm(
-            action=self.portal_catalog_url + "/@@elastic-convert"
-        )
-        form.getControl(name="convert").click()
-        # Let's flush
-        self.es.connection.indices.flush()
-
     def load_contents(self):
         """ """
-        self.convert_to_elasticsearch(
-            [
-                "organization_resource",
-                "medicationrequest_resource",
-                "patient_resource",
-                "task_resource",
-                "chargeitem_resource",
-                "encounter_resource",
-                "observation_resource",
-            ]
-        )
         self.admin_browser.open(self.portal_url + "/++add++Organization")
 
         self.admin_browser.getControl(

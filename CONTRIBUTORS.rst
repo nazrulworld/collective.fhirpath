@@ -1,4 +1,4 @@
 Contributors
 ============
 
-- Md Nazrul Islam, email2nazru@gmail.com
+- Md Nazrul Islam, email2nazrul@gmail.com (author)

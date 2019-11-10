@@ -7,7 +7,13 @@ Changelog
 
 Improvements
 
-- Legacy zcatalog fhir search added.
+- ZCatalog featured fhir search added, from which you will get ZCatalog´s brain feature.
+
+- ``FhirFieldIndex`` named PluginIndex is now available.
+
+- FHIR ``STU3``and ``R4``search mapping is now available.
+
+- Others improvements that make able to use in production project (of course without 🐛guarantee.)
 
 
 0.2.0 (2019-09-16)
