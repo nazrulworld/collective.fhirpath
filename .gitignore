@@ -20,6 +20,7 @@ dist/*
 test.plone_addon/
 var/
 .Python
+.DS_Store
 mr-developer-src/
 # files
 .installed.cfg

@@ -22,6 +22,7 @@ install_requires = [
     "plone.restapi",
     "plone.app.dexterity",
     "collective.elasticsearch",
+    "plone.app.fhirfield",
     "fhirpath>=0.4.1",
 ]
 
@@ -33,7 +34,6 @@ test_requires = [
     "plone.testing>=7.0.1",
     "plone.app.contenttypes",
     "plone.app.robotframework[debug]",
-    "plone.app.fhirfield",
     "collective.MockMailHost"
 ]
 
