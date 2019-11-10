@@ -13,7 +13,7 @@ Improvements
 
 - FHIR ``STU3``and ``R4`` search mapping is now available.
 
-- Others improvements that make able to use in production project (of course without 🐛guarantee.)
+- Others improvements that make able to use in production project (of course without guarantee.)
 
 
 0.2.0 (2019-09-16)
