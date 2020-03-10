@@ -877,12 +877,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 1)
 
-    def test_custom_path_analizer(self):
+    def test_reference_with_below_above(self):
         """ """
         results = self.load_contents()
         context = self.get_context("Task", True)
         # Should Get All Tasks
-        params = (("patient", "Patient"),)
+        params = (("patient:below", "Patient"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 3)
 
@@ -920,20 +920,20 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         context = self.get_context("Observation", True)
         # Should One
-        params = (("subject", "Device"),)
+        params = (("subject:below", "Device"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 1)
 
         # Little bit complex
-        params = (("subject", "Device,Patient"),)
+        params = (("subject:below", "Device,Patient"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 2)
 
         # Search By Multiple Ids
-        params = (("subject", device_id + "," + json_value1["subject"]["reference"]),)
+        params = (("subject:above", device_id + "," + json_value1["subject"]["reference"]),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 2)
 
-        params = (("subject", device_id),)
+        params = (("subject:above", device_id),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 1)

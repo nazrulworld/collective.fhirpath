@@ -43,8 +43,8 @@ def clearTransactionEntries(es):
 
 def tear_down_es(es):
     """ """
-    es.connection.indices.delete_alias(index=es.real_index_name, name=es.index_name)
-    es.connection.indices.delete(index=es.real_index_name)
+    es.connection.indices.delete_alias(index="_all", name=es.index_name)
+    es.connection.indices.delete(index="_all")
     clearTransactionEntries(es)
 
 

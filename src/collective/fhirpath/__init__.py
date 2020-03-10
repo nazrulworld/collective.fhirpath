@@ -26,4 +26,5 @@ def initialize(context):
         )
         log.info("`{0}`  pluggable index has been registered".format(index.__name__))
 
+
 monkey_patch()
