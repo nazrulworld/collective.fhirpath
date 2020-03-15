@@ -158,17 +158,17 @@ class SearchSecurityFunctionalTest(BaseFunctionalTesting):
             self.assertEqual(len(bundle.entry), 3)
 
         with api.env.adopt_user(username=PATIENT_USER2_NAME):
-                params = [("active", "true")]
-                search_factory = self.get_factory("Organization", unrestricted=False)
-                bundle = search_factory(params)
-                # still single organization
-                self.assertEqual(len(bundle.entry), 1)
+            params = [("active", "true")]
+            search_factory = self.get_factory("Organization", unrestricted=False)
+            bundle = search_factory(params)
+            # still single organization
+            self.assertEqual(len(bundle.entry), 1)
 
-                params = [("gender", "male")]
-                search_factory = self.get_factory("Patient", unrestricted=False)
-                bundle = search_factory(params)
+            params = [("gender", "male")]
+            search_factory = self.get_factory("Patient", unrestricted=False)
+            bundle = search_factory(params)
 
-                self.assertEqual(len(bundle.entry), 1)
-                self.assertNotEqual(
-                    bundle.entry[0].resource.id, "19c5245f-89a8-49f8-b244-666b32adb92e"
-                )
+            self.assertEqual(len(bundle.entry), 1)
+            self.assertNotEqual(
+                bundle.entry[0].resource.id, "19c5245f-89a8-49f8-b244-666b32adb92e"
+            )

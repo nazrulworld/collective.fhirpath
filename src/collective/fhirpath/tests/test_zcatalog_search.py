@@ -45,9 +45,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
         context = self.get_context("Organization", True)
-        factory = queryMultiAdapter(
-            (context,), IZCatalogFhirSearch
-        )
+        factory = queryMultiAdapter((context,), IZCatalogFhirSearch)
 
         brains = factory(query_string=urlencode(params))
 
@@ -930,7 +928,9 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertEqual(len(brains), 2)
 
         # Search By Multiple Ids
-        params = (("subject:above", device_id + "," + json_value1["subject"]["reference"]),)
+        params = (
+            ("subject:above", device_id + "," + json_value1["subject"]["reference"]),
+        )
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 2)
 
