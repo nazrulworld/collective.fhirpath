@@ -1,7 +1,7 @@
 {
   "resourceType": "RiskEvidenceSynthesis",
   "meta": {
-    "lastUpdated": "2020-02-23T20:14:36+06:00",
+    "lastUpdated": "2020-03-15T16:44:11+06:00",
     "versionId": "R4"
   },
   "mapping": {
@@ -433,6 +433,42 @@
               }
             },
             "type": "nested"
+          }
+        },
+        "type": "nested"
+      },
+      "relatedArtifact": {
+        "properties": {
+          "type": {
+            "type": "keyword",
+            "index": true,
+            "store": false
+          },
+          "url": {
+            "type": "keyword",
+            "index": true,
+            "store": false
+          },
+          "resource": {
+            "properties": {
+              "reference": {
+                "type": "keyword",
+                "index": true,
+                "store": false
+              }
+            }
+          },
+          "label": {
+            "type": "text",
+            "index": true,
+            "store": false,
+            "analyzer": "standard"
+          },
+          "display": {
+            "type": "text",
+            "index": true,
+            "store": false,
+            "analyzer": "standard"
           }
         },
         "type": "nested"

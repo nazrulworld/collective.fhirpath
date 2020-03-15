@@ -23,7 +23,7 @@ install_requires = [
     "plone.app.dexterity",
     "collective.elasticsearch",
     "plone.app.fhirfield",
-    "fhirpath>=0.4.1",
+    "fhirpath>=0.5.0",
 ]
 
 test_requires = [

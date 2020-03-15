@@ -1,7 +1,7 @@
 {
   "resourceType": "Encounter",
   "meta": {
-    "lastUpdated": "2020-02-23T20:14:36+06:00",
+    "lastUpdated": "2020-03-15T16:44:10+06:00",
     "versionId": "R4"
   },
   "mapping": {
@@ -200,6 +200,29 @@
           "end": {
             "type": "date",
             "format": "date_time_no_millis||date_optional_time",
+            "store": false
+          }
+        }
+      },
+      "length": {
+        "properties": {
+          "value": {
+            "type": "float",
+            "store": false
+          },
+          "code": {
+            "type": "keyword",
+            "index": true,
+            "store": false
+          },
+          "system": {
+            "type": "keyword",
+            "index": true,
+            "store": false
+          },
+          "unit": {
+            "type": "keyword",
+            "index": true,
             "store": false
           }
         }
