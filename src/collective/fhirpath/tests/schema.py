@@ -14,7 +14,7 @@ class IOrganization(model.Schema):
 
     organization_resource = FhirResource(
         title=u"Fhir Organization Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         model="fhir.resources.STU3.organization.Organization",
     )
 
@@ -29,7 +29,7 @@ class IPatient(model.Schema):
 
     patient_resource = FhirResource(
         title=u"Fhir Patient Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         model="fhir.resources.STU3.patient.Patient",
     )
 
@@ -44,7 +44,7 @@ class IPractitioner(model.Schema):
 
     practitioner_resource = FhirResource(
         title=u"Fhir Practitioner Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         model="fhir.resources.STU3.practitioner.Practitioner",
     )
 
@@ -59,7 +59,7 @@ class IQuestionnaire(model.Schema):
 
     questionnaire_resource = FhirResource(
         title=u"Fhir Questionnaire Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         model="fhir.resources.STU3.questionnaire.Questionnaire",
     )
 
@@ -74,7 +74,7 @@ class IQuestionnaireResponse(model.Schema):
 
     questionnaireresponse_resource = FhirResource(
         title=u"Fhir QuestionnaireResponse Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         model="fhir.resources.STU3.questionnaireresponse.QuestionnaireResponse",
     )
 
@@ -89,7 +89,7 @@ class ITask(model.Schema):
 
     task_resource = FhirResource(
         title=u"Fhir Task Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         model="fhir.resources.STU3.task.Task",
     )
 
@@ -104,7 +104,7 @@ class IProcedureRequest(model.Schema):
 
     procedurerequest_resource = FhirResource(
         title=u"Fhir ProcedureRequest Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         model="fhir.resources.STU3.procedurerequest.ProcedureRequest",
     )
 
@@ -118,7 +118,7 @@ class IDevice(model.Schema):
     """ """
 
     device_resource = FhirResource(
-        title=u"Fhir Device Field", fhir_version="STU3", resource_type="Device"
+        title=u"Fhir Device Field", fhir_release="STU3", resource_type="Device"
     )
 
 
@@ -132,7 +132,7 @@ class IDeviceRequest(model.Schema):
 
     devicerequest_resource = FhirResource(
         title=u"Fhir DeviceRequest Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         resource_type="DeviceRequest",
     )
 
@@ -146,7 +146,7 @@ class IValueSet(model.Schema):
     """ """
 
     valueset_resource = FhirResource(
-        title=u"Fhir ValueSet Field", fhir_version="STU3", resource_type="ValueSet"
+        title=u"Fhir ValueSet Field", fhir_release="STU3", resource_type="ValueSet"
     )
 
 
@@ -159,7 +159,7 @@ class IChargeItem(model.Schema):
     """"""
 
     chargeitem_resource = FhirResource(
-        title=u"Fhir ChargeItem Field", fhir_version="STU3", resource_type="ChargeItem"
+        title=u"Fhir ChargeItem Field", fhir_release="STU3", resource_type="ChargeItem"
     )
 
 
@@ -172,7 +172,7 @@ class IEncounter(model.Schema):
     """"""
 
     encounter_resource = FhirResource(
-        title=u"Fhir FFEncounter Field", fhir_version="STU3", resource_type="Encounter"
+        title=u"Fhir FFEncounter Field", fhir_release="STU3", resource_type="Encounter"
     )
 
 
@@ -186,7 +186,7 @@ class IMedicationRequest(model.Schema):
 
     medicationrequest_resource = FhirResource(
         title=u"Fhir MedicationRequest Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         resource_type="MedicationRequest",
     )
 
@@ -201,7 +201,7 @@ class IObservation(model.Schema):
 
     observation_resource = FhirResource(
         title=u"Fhir Observation Field",
-        fhir_version="STU3",
+        fhir_release="STU3",
         resource_type="Observation",
     )
 
@@ -215,7 +215,7 @@ class IMedia(model.Schema):
     """"""
 
     media_resource = FhirResource(
-        title=u"Fhir Media Field", fhir_version="STU3", resource_type="Media"
+        title=u"Fhir Media Field", fhir_release="STU3", resource_type="Media"
     )
 
 

@@ -2,10 +2,14 @@ Changelog
 =========
 
 
-0.3.1 (unreleased)
+0.4.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Breakings
+
+- As a part of supporting latest ``fhirpath`` version (from ``0.6.1``), drop python version later than ``3.7.0``.
+
+-  ``ElasticsearchEngineFactory.__call__``'s argument name ``fhir_version`` changed to ``fhir_release``.
 
 
 0.3.0 (2019-11-10)

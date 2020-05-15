@@ -36,14 +36,14 @@ class AdatptersIntegrationTest(unittest.TestCase):
             (self.get_es_catalog(),), IElasticsearchEngineFactory
         )
         self.assertIsNotNone(factory)
-        engine = factory(fhir_version=FHIR_VERSION.STU3)
+        engine = factory(fhir_release=FHIR_VERSION.STU3)
         self.assertTrue(IEngine.providedBy(engine))
 
     def test_search_context_creation(self):
         """ """
         engine = queryMultiAdapter(
             (self.get_es_catalog(),), IElasticsearchEngineFactory
-        )(fhir_version=FHIR_VERSION.STU3)
+        )(fhir_release=FHIR_VERSION.STU3)
 
         factory = queryMultiAdapter((engine,), ISearchContextFactory)
         self.assertIsNotNone(factory)
@@ -55,7 +55,7 @@ class AdatptersIntegrationTest(unittest.TestCase):
         """ """
         engine = queryMultiAdapter(
             (self.get_es_catalog(),), IElasticsearchEngineFactory
-        )(fhir_version=FHIR_VERSION.STU3)
+        )(fhir_release=FHIR_VERSION.STU3)
 
         context = queryMultiAdapter((engine,), ISearchContextFactory)("Organization")
 
@@ -66,7 +66,7 @@ class AdatptersIntegrationTest(unittest.TestCase):
         """ """
         engine = queryMultiAdapter(
             (self.get_es_catalog(),), IElasticsearchEngineFactory
-        )(fhir_version=FHIR_VERSION.STU3)
+        )(fhir_release=FHIR_VERSION.STU3)
 
         context = queryMultiAdapter((engine,), ISearchContextFactory)("Organization")
 

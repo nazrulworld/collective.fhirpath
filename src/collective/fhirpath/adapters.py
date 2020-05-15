@@ -22,12 +22,12 @@ from zope.interface import implementer
 __author__ = "Md Nazrul Islam<email2nazrul@gmail.com>"
 
 
-def create_engine(es_catalog, fhir_version=None):
+def create_engine(es_catalog, fhir_release=None):
     """ """
-    if fhir_version is None:
-        fhir_version = FHIR_VERSION.DEFAULT
-    if isinstance(fhir_version, str):
-        fhir_version = FHIR_VERSION[fhir_version]
+    if fhir_release is None:
+        fhir_release = FHIR_VERSION.DEFAULT.value
+    if isinstance(fhir_release, str):
+        fhir_release = FHIR_VERSION[fhir_release]
 
     def es_conn_factory(engine):
         return ElasticsearchConnection.from_prepared(engine.es_catalog.connection)
@@ -37,7 +37,7 @@ def create_engine(es_catalog, fhir_version=None):
         return ElasticSearchDialect(connection=engine.connection)
 
     engine_ = ElasticsearchEngine(
-        es_catalog, fhir_version, es_conn_factory, es_dialect_factory
+        es_catalog, fhir_release, es_conn_factory, es_dialect_factory
     )
 
     return engine_
@@ -52,9 +52,9 @@ class ElasticsearchEngineFactory:
         """ """
         self.es_catalog = es_catalog
 
-    def __call__(self, fhir_version=None):
+    def __call__(self, fhir_release=None):
         """ """
-        return create_engine(self.es_catalog, fhir_version=fhir_version)
+        return create_engine(self.es_catalog, fhir_release=fhir_release)
 
 
 @implementer(ISearchContextFactory)

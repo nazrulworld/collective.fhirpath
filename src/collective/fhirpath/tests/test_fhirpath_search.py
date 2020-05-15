@@ -29,7 +29,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
         factory = queryMultiAdapter(
             (self.get_es_catalog(),), IElasticsearchEngineFactory
         )
-        engine = factory(fhir_version=FHIR_VERSION.STU3)
+        engine = factory(fhir_release=FHIR_VERSION.STU3)
         context = queryMultiAdapter((engine,), ISearchContextFactory)(
             resource_type, unrestricted=unrestricted
         )

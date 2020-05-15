@@ -1,7 +1,6 @@
 # _*_ coding: utf-8 _*_
 from collective.fhirpath import utils
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_INTEGRATION_TESTING
-from fhirpath.enums import FHIR_VERSION
 
 import unittest
 
@@ -23,7 +22,7 @@ class UtilsIntegrationTest(unittest.TestCase):
         fhirfield = utils.find_fhirfield_by_name("patient_resource")
         self.assertIsNotNone(fhirfield)
         self.assertEqual(fhirfield.get_resource_type(), "Patient")
-        self.assertEqual(fhirfield.get_fhir_version(), FHIR_VERSION.STU3)
+        self.assertEqual(fhirfield.get_fhir_release(), "STU3")
         # Test with unknown
         fhirfield = utils.find_fhirfield_by_name("fake_fieldname")
         self.assertIsNone(fhirfield)
@@ -33,11 +32,11 @@ class UtilsIntegrationTest(unittest.TestCase):
         mapping = utils.get_elasticsearch_mapping("Patient")
         self.assertIsNotNone(mapping)
 
-        mapping = utils.get_elasticsearch_mapping("Patient", FHIR_VERSION.STU3)
+        mapping = utils.get_elasticsearch_mapping("Patient", "STU3")
         self.assertIsNotNone(mapping)
 
         try:
-            utils.get_elasticsearch_mapping("FakeResource", FHIR_VERSION.STU3)
+            utils.get_elasticsearch_mapping("FakeResource", "STU3")
             raise AssertionError("Code should not come here!")
         except LookupError:
             pass

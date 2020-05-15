@@ -133,7 +133,7 @@ class FhirFieldIndex(FieldIndex):
             pass
 
         mapping = get_elasticsearch_mapping(
-            fhirfield.get_resource_type(), fhir_release=fhirfield.get_fhir_version()
+            fhirfield.get_resource_type(), fhir_release=fhirfield.get_fhir_release()
         )
         if mapping:
             return mapping

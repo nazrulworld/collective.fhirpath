@@ -14,7 +14,7 @@ import os
 __author__ = "Md Nazrul Islam<email2nazrul@gmail.com>"
 
 FHIR_ES_MAPPINGS_CACHE = MemoryStorage()
-releases = set([member.value for member in FHIR_VERSION])
+releases = [member.name for member in FHIR_VERSION if member.name != "DEFAULT"]
 for release in releases:
     if not FHIR_ES_MAPPINGS_CACHE.exists(release):
         FHIR_ES_MAPPINGS_CACHE.insert(release, MemoryStorage())
@@ -24,18 +24,19 @@ FHIRFIELD_NAMES_MAP = MemoryStorage()
 
 
 def get_elasticsearch_mapping(
-    resource, fhir_release=FHIR_VERSION.R4, mapping_dir=None, cache=True
+    resource, fhir_release="R4", mapping_dir=None, cache=True
 ):
     """Elastic search mapping for FHIR resources"""
+    fhir_release = FHIR_VERSION[fhir_release].name
     if mapping_dir is None:
         mapping_dir = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             "browser",
             "static",
             "ES_MAPPINGS",
-            fhir_release.value,
+            fhir_release,
         )
-    storage = FHIR_ES_MAPPINGS_CACHE.get(fhir_release.value)
+    storage = FHIR_ES_MAPPINGS_CACHE.get(fhir_release)
 
     if resource not in storage or cache is False:
         file_location = None
