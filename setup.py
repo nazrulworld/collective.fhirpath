@@ -47,7 +47,7 @@ docs_requirements = [
 
 setup(
     name="collective.fhirpath",
-    version="0.4.0.dev0",
+    version="0.4.0",
     description="Plone powered provider for fhirpath",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
