@@ -76,7 +76,6 @@ Usages
 ~~~~~~
 
 FHIR Search::
-    >>> from fhirpath.enums import FHIR_VERSION
     >>> from fhirpath.interfaces import IElasticsearchEngineFactory
     >>> from fhirpath.interfaces import IFhirSearch
     >>> from fhirpath.interfaces import ISearchContextFactory
@@ -88,7 +87,7 @@ FHIR Search::
     >>> factory = queryMultiAdapter(
     ....        (es_catalog,), IElasticsearchEngineFactory
     .... )
-    >>> engine = factory(fhir_version=FHIR_VERSION.STU3)
+    >>> engine = factory(fhir_release="STU3")
     >>> search_context = queryMultiAdapter((engine,), ISearchContextFactory)(
     .... resource_type, unrestricted=False)
     >>> search_factory = queryMultiAdapter((search_context,), IFhirSearch)
@@ -122,7 +121,6 @@ ZCatlog FHIR Search::
     2
 
 FHIR Query::
-    >>> from fhirpath.enums import FHIR_VERSION
     >>> from fhirpath.interfaces import IElasticsearchEngineFactory
     >>> from fhirpath.interfaces import IFhirSearch
     >>> from fhirpath.interfaces import ISearchContextFactory
@@ -138,7 +136,7 @@ FHIR Query::
     >>> factory = queryMultiAdapter(
     ....        (es_catalog,), IElasticsearchEngineFactory
     .... )
-    >>> engine = factory(fhir_version=FHIR_VERSION.STU3)
+    >>> engine = factory(fhir_release="STU3")
     >>> query_builder = Q_(resource="Organization", engine=engine)
     ....    query_builder = query_builder.where(
     ....        T_("Organization.meta.profile", "http://hl7.org/fhir/Organization")
