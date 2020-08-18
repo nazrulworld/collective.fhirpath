@@ -148,7 +148,7 @@ FHIR Query::
     >>> query_result = query_builder(async_result=False, unrestricted=True)
     >>> for resource in query_result:
     ....        count += 1
-    ....        assert resource.__class__.__name__ == "OrganizationModel"
+    ....        assert resource.__class__.__name__ == "Organization"
 
     >>> query_builder = Q_(resource="Organization", engine=engine)
     >>> query_builder = query_builder.where(T_("Organization.id", "f001"))
@@ -165,6 +165,7 @@ FHIR Query::
     >>> result = result_query.first()
     >>> isinstance(result, result_query._query.get_from()[0][1])
     True
+
 
 configuration
 -------------
