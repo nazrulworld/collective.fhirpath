@@ -22,4 +22,4 @@ Server Side codex examples
    :language: xml
    :caption: REST Service registration (configuration.zcml)
 
-.. include:: ../../RESTAPI.rst
+.. include:: ../RESTAPI.rst
