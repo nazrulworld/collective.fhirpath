@@ -335,23 +335,23 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
         self.assertGreater(
-            brains[1].getObject().task_resource.meta.lastUpdated.date,
-            brains[0].getObject().task_resource.meta.lastUpdated.date,
+            brains[1].getObject().task_resource.meta.lastUpdated,
+            brains[0].getObject().task_resource.meta.lastUpdated,
         )
         self.assertGreater(
-            brains[2].getObject().task_resource.meta.lastUpdated.date,
-            brains[1].getObject().task_resource.meta.lastUpdated.date,
+            brains[2].getObject().task_resource.meta.lastUpdated,
+            brains[1].getObject().task_resource.meta.lastUpdated,
         )
         # Test descending order
         params = (("status:missing", "false"), ("_sort", "-_lastUpdated"))
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertGreater(
-            brains[0].getObject().task_resource.meta.lastUpdated.date,
-            brains[1].getObject().task_resource.meta.lastUpdated.date,
+            brains[0].getObject().task_resource.meta.lastUpdated,
+            brains[1].getObject().task_resource.meta.lastUpdated,
         )
         self.assertGreater(
-            brains[1].getObject().task_resource.meta.lastUpdated.date,
-            brains[2].getObject().task_resource.meta.lastUpdated.date,
+            brains[1].getObject().task_resource.meta.lastUpdated,
+            brains[2].getObject().task_resource.meta.lastUpdated,
         )
 
     def test_quantity_type_search(self):
@@ -896,6 +896,8 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             )
 
         self.admin_browser.getControl(name="form.buttons.save").click()
+        with open("output.html", "w") as fp:
+            fp.write(self.admin_browser.contents)
         self.assertIn("Item created", self.admin_browser.contents)
 
         device_id = str(uuid.uuid4())

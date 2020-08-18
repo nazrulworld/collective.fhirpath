@@ -2,10 +2,17 @@ Changelog
 =========
 
 
-0.4.1 (unreleased)
+0.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Improvements
+
+- Supports the revolutionary version of `fhir.resources <https://pypi.org/project/fhir.resources/>`_ via `fhirpath <https://pypi.org/project/fhirpath/>`_
+  we may expect some refactor on your existing codebase because of some breaking changes, please see changes at ``fhir.resources``, ``plone.app.fhirfield`` and ``fhirpath``.
+
+- Brings back support for Python version 3.6
+
+- Three configurations (``fhirpath.es.index.mapping.nested_fields.limit``, ``fhirpath.es.index.mapping.depth.limit``, ``fhirpath.es.index.mapping.total_fields.limit``) based on plone registry has now been available.
 
 
 0.4.0 (2020-05-15)

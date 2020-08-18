@@ -22,8 +22,8 @@ install_requires = [
     "plone.restapi",
     "plone.app.dexterity",
     "collective.elasticsearch>=3.0.4",
-    "plone.app.fhirfield>=3.1.0",
-    "fhirpath>=0.6.1",
+    "plone.app.fhirfield>=4.0.0",
+    "fhirpath>=0.7.1",
 ]
 
 test_requires = [
@@ -47,7 +47,7 @@ docs_requirements = [
 
 setup(
     name="collective.fhirpath",
-    version="0.4.1.dev0",
+    version="0.5.0.dev0",
     description="Plone powered provider for fhirpath",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -59,6 +59,7 @@ setup(
         "Framework :: Plone :: 5.2",
         "Framework :: Plone :: 5.3",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -81,7 +82,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
-    python_requires=">=3.7",
+    python_requires=">=3.6",
     install_requires=install_requires,
     extras_require={
         "test": test_requires + docs_requirements,

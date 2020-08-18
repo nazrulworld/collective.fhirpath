@@ -104,23 +104,23 @@ def init_fixture(portal, fixture_path):
 def setup_ES(app):
     """ """
     default_indexes = {
-        u"Description",
-        u"SearchableText",
-        u"Title",
-        u"organization_resource",
-        u"patient_resource",
-        u"questionnaire_resource",
-        u"questionnaireresponse_resource",
-        u"task_resource",
-        u"valueset_resource",
-        u"device_resource",
-        u"devicerequest_resource",
-        u"procedurerequest_resource",
-        u"chargeitem_resource",
-        u"encounter_resource",
-        u"medicationrequest_resource",
-        u"observation_resource",
-        u"media_resource",
+        "Description",
+        "SearchableText",
+        "Title",
+        "organization_resource",
+        "patient_resource",
+        "questionnaire_resource",
+        "questionnaireresponse_resource",
+        "task_resource",
+        "valueset_resource",
+        "device_resource",
+        "devicerequest_resource",
+        "procedurerequest_resource",
+        "chargeitem_resource",
+        "encounter_resource",
+        "medicationrequest_resource",
+        "observation_resource",
+        "media_resource",
     }
     setup_es(app, default_indexes)
 
@@ -155,6 +155,7 @@ def setUp(doctest):
 
     # Setup ES
     setup_ES(app)
+
     transaction.commit()
 
     # Fixtures

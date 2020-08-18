@@ -11,6 +11,7 @@ from collective.fhirpath.PluginIndexes import FhirFieldIndex
 
 def monkey_patch():
     """ """
-    INDEX_MAPPING = {FhirFieldIndex: EsFhirFieldIndex}
-    # Tiny patch
-    CIM.update(INDEX_MAPPING)
+    if FhirFieldIndex not in CIM:
+        INDEX_MAPPING = {FhirFieldIndex: EsFhirFieldIndex}
+        # Tiny patch
+        CIM.update(INDEX_MAPPING)

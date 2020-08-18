@@ -48,7 +48,7 @@ def tear_down_es(es):
     clearTransactionEntries(es)
 
 
-def setup_es(self, es_only_indexes={u"Title", u"Description", u"SearchableText"}):
+def setup_es(self, es_only_indexes={"Title", "Description", "SearchableText"}):
     """ """
     registry = getUtility(IRegistry)
     settings = registry.forInterface(IElasticSettings, check=False)  # noqa: P001
@@ -64,6 +64,8 @@ def setup_es(self, es_only_indexes={u"Title", u"Description", u"SearchableText"}
     self.catalog = api.portal.get_tool("portal_catalog")
     self.catalog._elasticcustomindex = "plone-test-index"
     self.es = ElasticSearchCatalog(self.catalog)
+
+    self.es.convertToElastic()
     self.catalog.manage_catalogRebuild()
 
 
@@ -185,6 +187,7 @@ class BaseTesting(unittest.TestCase):
             ).value = json_value["description"]
 
         self.admin_browser.getControl(name="form.buttons.save").click()
+
         self.assertIn("Item created", self.admin_browser.contents)
         task1_url = self.admin_browser.url.replace("/view", "")
 
@@ -200,6 +203,7 @@ class BaseTesting(unittest.TestCase):
             ).value = json_value["description"]
 
         self.admin_browser.getControl(name="form.buttons.save").click()
+
         self.assertIn("Item created", self.admin_browser.contents)
         task2_url = self.admin_browser.url.replace("/view", "")
 
@@ -250,7 +254,20 @@ class BaseFunctionalTesting(BaseTesting):
         self.portal_catalog_url = api.portal.get_tool("portal_catalog").absolute_url()
 
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        setup_es(self)
+        setup_es(
+            self,
+            es_only_indexes={
+                "Title",
+                "Description",
+                "SearchableText",
+                "organization_resource",
+                "patient_resource",
+                "questionnaire_resource",
+                "questionnaireresponse_resource",
+                "task_resource",
+                "valueset_resource",
+            },
+        )
 
         self.anon_browser = z2.Browser(self.layer["app"])
         self.error_setup(self.anon_browser)

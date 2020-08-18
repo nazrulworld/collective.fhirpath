@@ -46,7 +46,8 @@ class FhirPathPloneQueryFunctionalTest(BaseFunctionalTesting):
 
         for resource in builder(async_result=False, unrestricted=True):
             count += 1
-            assert resource.__class__.__name__ == "OrganizationModel"
+
+            assert resource.__class__.__name__ == "Organization"
 
         self.assertEqual(count, 2)
 

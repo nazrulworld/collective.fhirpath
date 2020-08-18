@@ -50,7 +50,7 @@
     "intent": "order",
     "requester": {
         "agent": {
-            "display": "",
+            "display": "Test User",
             "reference": "test-user"
         }
     },

@@ -11,6 +11,8 @@ from Missing import MV
 from plone.app.fhirfield.interfaces import IFhirResourceValue
 from zope.interface import Invalid
 
+import simplejson as json
+
 
 __author__ = "Md Nazrul Islam <email2nazrul@gmail.com>"
 
@@ -55,7 +57,7 @@ class EsFhirFieldIndex(BaseIndex):
             return None
 
         if IFhirResourceValue.providedBy(value):
-            value = value.as_json()
+            value = json.loads(value.json())
 
         return value
 

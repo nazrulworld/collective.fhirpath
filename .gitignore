@@ -22,6 +22,7 @@ var/
 .Python
 .DS_Store
 mr-developer-src/
+pyvenv.cfg
 # files
 .installed.cfg
 .mr.developer.cfg

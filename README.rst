@@ -166,6 +166,11 @@ FHIR Query::
     >>> isinstance(result, result_query._query.get_from()[0][1])
     True
 
+configuration
+-------------
+
+This product provides three plone registry based records ``fhirpath.es.index.mapping.nested_fields.limit``, ``fhirpath.es.index.mapping.depth.limit``, ``fhirpath.es.index.mapping.total_fields.limit``. Those are related to ElasticSearch index mapping setup, if you aware about it, then you have option to modify from plone control panel (Registry).
+
 
 Documentation
 -------------

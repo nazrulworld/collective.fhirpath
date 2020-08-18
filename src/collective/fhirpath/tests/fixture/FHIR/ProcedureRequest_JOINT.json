@@ -28,12 +28,12 @@
     "authoredOn": "2017-08-05T06:16:41",
     "meta": {
         "versionId": "1.0.0",
-        "lastUpdated": "2017-10-15T06:31:18"
+        "lastUpdated": "2017-10-15T06:31:18+01:00"
     },
     "intent": "order",
     "requester": {
         "agent": {
-            "display": "",
+            "display": "Test User",
             "reference": "test-user"
         }
     },

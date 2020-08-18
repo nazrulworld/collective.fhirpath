@@ -46,7 +46,7 @@
     "intent": "order",
     "requester": {
         "agent": {
-            "display": "",
+            "display": "Test User",
             "reference": "Practioner/test-user"
         }
     },

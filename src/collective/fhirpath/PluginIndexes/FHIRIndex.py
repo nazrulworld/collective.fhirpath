@@ -10,7 +10,7 @@ from collective.fhirpath.utils import get_elasticsearch_mapping
 from plone.app.fhirfield.interfaces import IFhirResourceValue
 from Products.PluginIndexes.FieldIndex.FieldIndex import FieldIndex
 
-import json
+import simplejson as json
 import six
 import warnings
 
@@ -84,7 +84,7 @@ class FhirFieldIndex(FieldIndex):
 
         fhir_value = None
         if IFhirResourceValue.providedBy(datum):
-            fhir_value = datum.as_json()
+            fhir_value = json.loads(datum.json())
 
         if isinstance(datum, six.string_types):
             try:

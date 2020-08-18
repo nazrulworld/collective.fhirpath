@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Init and utils."""
+from collective.fhirpath import patch
 from collective.fhirpath.EsIndexes import monkey_patch
 
 
@@ -28,3 +29,4 @@ def initialize(context):
 
 
 monkey_patch()
+patch.do()

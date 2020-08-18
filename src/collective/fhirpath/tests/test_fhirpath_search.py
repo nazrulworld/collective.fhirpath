@@ -185,21 +185,23 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
         bundle = search_factory(params)
 
         self.assertGreater(
-            bundle.entry[1].resource.meta.lastUpdated.date,
-            bundle.entry[0].resource.meta.lastUpdated.date,
+            bundle.entry[1].resource.meta.lastUpdated,
+            bundle.entry[0].resource.meta.lastUpdated,
         )
         self.assertGreater(
-            bundle.entry[2].resource.meta.lastUpdated.date,
-            bundle.entry[1].resource.meta.lastUpdated.date,
+            bundle.entry[2].resource.meta.lastUpdated,
+            bundle.entry[1].resource.meta.lastUpdated,
         )
         # Test descending order
         params = (("status:missing", "false"), ("_sort", "-_lastUpdated"))
         bundle = search_factory(params)
-        self.assertGreater(
-            bundle.entry[0].resource.meta.lastUpdated.date,
-            bundle.entry[1].resource.meta.lastUpdated.date,
+
+        self.assertTrue(
+            bundle.entry[0].resource.meta.lastUpdated
+            > bundle.entry[1].resource.meta.lastUpdated,
         )
-        self.assertGreater(
-            bundle.entry[1].resource.meta.lastUpdated.date,
-            bundle.entry[2].resource.meta.lastUpdated.date,
+        self.assertTrue(
+            bundle.entry[1].resource.meta.lastUpdated
+            > bundle.entry[2].resource.meta.lastUpdated,
         )
+
