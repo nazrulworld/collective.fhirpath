@@ -38,7 +38,6 @@ def make_fhir_index_datum(mapping, fhir_json):
                 )
 
             elif meta["type"] == "datetime":
-                # XXX: make DateTime object again?
                 container[key] = fhir_json.get(key)
     return container
 
