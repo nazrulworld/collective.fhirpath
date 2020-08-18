@@ -204,4 +204,3 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
             bundle.entry[1].resource.meta.lastUpdated
             > bundle.entry[2].resource.meta.lastUpdated,
         )
-
