@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.elasticsearch.es import ElasticSearchCatalog
+from collective.fhirpath.utils import FHIRModelServiceMixin
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.interfaces import IElasticsearchEngineFactory
 from fhirpath.interfaces import IFhirSearch
@@ -12,7 +13,7 @@ from zope.publisher.interfaces import IPublishTraverse
 
 
 @implementer(IPublishTraverse)
-class FHIRSearchService(Service):
+class FHIRSearchService(Service, FHIRModelServiceMixin):
     """ """
 
     def __init__(self, context, request):
@@ -43,11 +44,10 @@ class FHIRSearchService(Service):
 
         if self.resource_id:
             if bundle.total == 0:
-                self.request.response.setStatus(404)
-                return None
-            return bundle.entry[0].resource.as_json()
+                return self.reply_no_content(status=404)
+            return bundle.entry[0].resource
 
-        return bundle.as_json()
+        return bundle
 
     def publishTraverse(self, request, name):  # noqa: N802
         # Consume any path segments after /@fhir as parameters

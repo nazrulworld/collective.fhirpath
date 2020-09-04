@@ -8,7 +8,7 @@ from collective.elasticsearch import logger
 from collective.elasticsearch.indexes import BaseIndex
 from collective.fhirpath.utils import find_fhirfield_by_name
 from Missing import MV
-from plone.app.fhirfield.interfaces import IFhirResourceValue
+from pydantic import BaseModel
 from zope.interface import Invalid
 
 import simplejson as json
@@ -56,7 +56,7 @@ class EsFhirFieldIndex(BaseIndex):
         if value == MV:
             return None
 
-        if IFhirResourceValue.providedBy(value):
+        if isinstance(value, BaseModel):
             value = json.loads(value.json())
 
         return value

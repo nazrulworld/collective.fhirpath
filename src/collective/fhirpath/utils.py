@@ -6,9 +6,10 @@ from plone.app.fhirfield.interfaces import IFhirResource
 from plone.behavior.interfaces import IBehavior
 from zope.component import getUtility
 from zope.schema import getFields
-
+from plone.restapi.services import _no_content_marker
 import json
 import os
+from pydantic import BaseModel
 
 
 __author__ = "Md Nazrul Islam<email2nazrul@gmail.com>"
@@ -99,3 +100,36 @@ def find_fhirfield_by_name(fieldname):
     if field_:
         FHIRFIELD_NAMES_MAP.insert(fieldname, field_)
     return field_
+
+
+class FHIRModelServiceMixin:
+    """This is performance optimized plone.restapi service's render mixin class
+    for FHIRModel (fhir.resources) content. Avoiding redundant json serilization
+    and deserialization.
+
+    User it with your Service Class::
+
+    >>> from collective.fhirpath.utils import FHIRModelServiceMixin
+    >>> from plone.restapi.services import Service
+
+    >>> class MyAwesomeService(FHIRModelServiceMixin, Service):
+    >>> .... pass
+    """
+
+    def render(self):
+        """ """
+        self.check_permission()
+
+        content = self.reply()
+
+        if content is _no_content_marker:
+            return
+
+        self.request.response.setHeader("Content-Type", self.content_type)
+
+        if isinstance(content, BaseModel):
+            return content.json(indent=2, sort_keys=True, separators=(", ", ": "))
+        elif isinstance(content, dict):
+            return json.dumps(
+                content, indent=2, sort_keys=True, separators=(", ", ": ")
+            )

@@ -7,9 +7,9 @@
 from App.special_dtml import DTMLFile
 from collective.fhirpath.utils import find_fhirfield_by_name
 from collective.fhirpath.utils import get_elasticsearch_mapping
-from plone.app.fhirfield.interfaces import IFhirResourceValue
 from Products.PluginIndexes.FieldIndex.FieldIndex import FieldIndex
 
+import gzip
 import simplejson as json
 import six
 import warnings
@@ -73,6 +73,13 @@ class FhirFieldIndex(FieldIndex):
         Elasticsearch mapping"""
         datum = super(FhirFieldIndex, self)._get_object_datum(obj, attr)
 
+        if isinstance(datum, bytes):
+            # we assume gzip compressed
+            datum = gzip.decompress(datum).decode()
+
+        if isinstance(datum, str):
+            datum = json.loads(datum)
+
         if es_datum:
             # No Filter
             return datum
@@ -81,24 +88,10 @@ class FhirFieldIndex(FieldIndex):
             # Nothing to do
             return datum
 
-        fhir_value = None
-        if IFhirResourceValue.providedBy(datum):
-            fhir_value = json.loads(datum.json())
-
-        if isinstance(datum, six.string_types):
-            try:
-                fhir_value = json.loads(datum)
-            except ValueError:
-                warnings.warn(
-                    "{0}'s value must be valid "
-                    "FHIR Resource json. But got-> {1}".format(attr, fhir_value),
-                    UserWarning,
-                )
-                return
-        if fhir_value:
+        if datum:
             # we make datum very tiny version! do we need whole doc? but stored in ES
             datum = make_fhir_index_datum(
-                self.default_mapping.get("properties"), fhir_value
+                self.default_mapping.get("properties"), datum
             )
             # issue: https://github.com/zopefoundation/BTrees/issues/109
             datum = json.dumps(datum, sort_keys=True)

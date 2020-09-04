@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from collective.elasticsearch.es import ElasticSearchCatalog
 from collective.fhirpath.interfaces import IZCatalogFhirSearch
+from collective.fhirpath.utils import FHIRModelServiceMixin
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.interfaces import IElasticsearchEngineFactory
 from fhirpath.interfaces import ISearchContextFactory
@@ -17,7 +18,7 @@ import plone.protect.interfaces
 
 
 @implementer(IPublishTraverse)
-class FHIRResourcePatch(Service):
+class FHIRResourcePatch(Service, FHIRModelServiceMixin):
     """Patch a FHIR Resource object.
     """
 
@@ -72,8 +73,7 @@ class FHIRResourcePatch(Service):
         brains = factory(query_string=query_string)
 
         if len(brains) == 0:
-            self.request.response.setStatus(404)
-            return None
+            return self.reply_no_content(status=404)
 
         obj = brains[0].getObject()
 
@@ -90,6 +90,4 @@ class FHIRResourcePatch(Service):
         fhir_value = getattr(obj, "{0}_resource".format(self.resource_type.lower()))
         fhir_value.patch(data["patch"])
 
-        self.request.response.setStatus(204)
-        # Return None
-        return None
+        return self.reply_no_content(status=204)

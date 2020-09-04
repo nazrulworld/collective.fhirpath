@@ -70,7 +70,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # result should contains only item
         self.assertEqual(len(brains), 1)
-        self.assertEqual(brains[0].getObject().organization_resource.id, "f001")
+        self.assertEqual(brains[0].getObject().get_resource().id, "f001")
 
         # test:2 not equal to
         params = (("_lastUpdated", "ne2015-05-28T05:35:56+00:00"),)
@@ -96,7 +96,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # result should contains only item
         self.assertEqual(len(brains), 1)
-        self.assertEqual(brains[0].getObject().organization_resource.id, "f003")
+        self.assertEqual(brains[0].getObject().get_resource().id, "f003")
 
         # test:6 greater than or equal to
         params = (("_lastUpdated", "ge2015-05-28T05:35:56+00:00"),)
@@ -248,12 +248,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
         self.assertEqual(1, len(brains))
-        self.assertIsNone(brains[0].getObject().patient_resource.gender)
+        self.assertIsNone(brains[0].getObject().get_resource().gender)
 
         params = (("gender:missing", "false"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(1, len(brains))
-        self.assertIsNotNone(brains[0].getObject().patient_resource.gender)
+        self.assertIsNotNone(brains[0].getObject().get_resource().gender)
 
     def test_missing_modifier_working(self):
         """
@@ -335,23 +335,23 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
         self.assertGreater(
-            brains[1].getObject().task_resource.meta.lastUpdated,
-            brains[0].getObject().task_resource.meta.lastUpdated,
+            brains[1].getObject().get_resource().meta.lastUpdated,
+            brains[0].getObject().get_resource().meta.lastUpdated,
         )
         self.assertGreater(
-            brains[2].getObject().task_resource.meta.lastUpdated,
-            brains[1].getObject().task_resource.meta.lastUpdated,
+            brains[2].getObject().get_resource().meta.lastUpdated,
+            brains[1].getObject().get_resource().meta.lastUpdated,
         )
         # Test descending order
         params = (("status:missing", "false"), ("_sort", "-_lastUpdated"))
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertGreater(
-            brains[0].getObject().task_resource.meta.lastUpdated,
-            brains[1].getObject().task_resource.meta.lastUpdated,
+            brains[0].getObject().get_resource().meta.lastUpdated,
+            brains[1].getObject().get_resource().meta.lastUpdated,
         )
         self.assertGreater(
-            brains[1].getObject().task_resource.meta.lastUpdated,
-            brains[2].getObject().task_resource.meta.lastUpdated,
+            brains[1].getObject().get_resource().meta.lastUpdated,
+            brains[2].getObject().get_resource().meta.lastUpdated,
         )
 
     def test_quantity_type_search(self):

@@ -23,6 +23,10 @@ class IOrganization(model.Schema):
 class Organization(Container):
     """ """
 
+    def get_resource(self):
+        """ """
+        return IOrganization["organization_resource"].get(self)
+
 
 class IPatient(model.Schema):
     """ """
@@ -37,6 +41,10 @@ class IPatient(model.Schema):
 @implementer(IPatient)
 class Patient(Container):
     """ """
+
+    def get_resource(self):
+        """ """
+        return IPatient["patient_resource"].get(self)
 
 
 class IPractitioner(model.Schema):
@@ -53,6 +61,10 @@ class IPractitioner(model.Schema):
 class Practitioner(Container):
     """ """
 
+    def get_resource(self):
+        """ """
+        return IPractitioner["practitioner_resource"].get(self)
+
 
 class IQuestionnaire(model.Schema):
     """ """
@@ -67,6 +79,10 @@ class IQuestionnaire(model.Schema):
 @implementer(IQuestionnaire)
 class Questionnaire(Container):
     """ """
+
+    def get_resource(self):
+        """ """
+        return IQuestionnaire["questionnaire_resource"].get(self)
 
 
 class IQuestionnaireResponse(model.Schema):
@@ -83,6 +99,10 @@ class IQuestionnaireResponse(model.Schema):
 class QuestionnaireResponse(Container):
     """ """
 
+    def get_resource(self):
+        """ """
+        return IQuestionnaireResponse["questionnaireresponse_resource"].get(self)
+
 
 class ITask(model.Schema):
     """ """
@@ -97,6 +117,10 @@ class ITask(model.Schema):
 @implementer(ITask)
 class Task(Item):
     """ """
+
+    def get_resource(self):
+        """ """
+        return ITask["task_resource"].get(self)
 
 
 class IProcedureRequest(model.Schema):
@@ -113,6 +137,10 @@ class IProcedureRequest(model.Schema):
 class ProcedureRequest(Item):
     """ """
 
+    def get_resource(self):
+        """ """
+        return IProcedureRequest["procedurerequest_resource"].get(self)
+
 
 class IDevice(model.Schema):
     """ """
@@ -125,6 +153,10 @@ class IDevice(model.Schema):
 @implementer(IDevice)
 class Device(Item):
     """ """
+
+    def get_resource(self):
+        """ """
+        return IDevice["device_resource"].get(self)
 
 
 class IDeviceRequest(model.Schema):
@@ -141,6 +173,10 @@ class IDeviceRequest(model.Schema):
 class DeviceRequest(Item):
     """ """
 
+    def get_resource(self):
+        """ """
+        return IDeviceRequest["devicerequest_resource"].get(self)
+
 
 class IValueSet(model.Schema):
     """ """
@@ -153,6 +189,10 @@ class IValueSet(model.Schema):
 @implementer(IValueSet)
 class ValueSet(Item):
     """ """
+
+    def get_resource(self):
+        """ """
+        return IValueSet["valueset_resource"].get(self)
 
 
 class IChargeItem(model.Schema):
@@ -167,6 +207,10 @@ class IChargeItem(model.Schema):
 class ChargeItem(Item):
     """ """
 
+    def get_resource(self):
+        """ """
+        return IChargeItem["chargeitem_resource"].get(self)
+
 
 class IEncounter(model.Schema):
     """"""
@@ -179,6 +223,10 @@ class IEncounter(model.Schema):
 @implementer(IEncounter)
 class Encounter(Item):
     """ """
+
+    def get_resource(self):
+        """ """
+        return IEncounter["encounter_resource"].get(self)
 
 
 class IMedicationRequest(model.Schema):
@@ -195,6 +243,10 @@ class IMedicationRequest(model.Schema):
 class MedicationRequest(Item):
     """ """
 
+    def get_resource(self):
+        """ """
+        return IMedicationRequest["medicationrequest_resource"].get(self)
+
 
 class IObservation(model.Schema):
     """"""
@@ -210,6 +262,10 @@ class IObservation(model.Schema):
 class Observation(Item):
     """ """
 
+    def get_resource(self):
+        """ """
+        return IObservation["ovservation_resource"].get(self)
+
 
 class IMedia(model.Schema):
     """"""
@@ -222,3 +278,7 @@ class IMedia(model.Schema):
 @implementer(IMedia)
 class Media(Item):
     """ """
+
+    def get_resource(self):
+        """ """
+        return IMedia["media_resource"].get(self)
