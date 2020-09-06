@@ -1,4 +1,5 @@
 graft src/collective
+prune src/collective/fhirpath/tests
 prune docs
 prune .cache
 prune examples
