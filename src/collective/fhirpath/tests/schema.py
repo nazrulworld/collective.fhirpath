@@ -264,7 +264,7 @@ class Observation(Item):
 
     def get_resource(self):
         """ """
-        return IObservation["ovservation_resource"].get(self)
+        return IObservation["observation_resource"].get(self)
 
 
 class IMedia(model.Schema):

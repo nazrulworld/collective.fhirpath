@@ -5,7 +5,17 @@ Changelog
 0.6.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Breakings
+
+- Now supports minimum version family of `plone.app.fhirfield <https://pypi.org/project/plone.app.fhirfield/>`_ is ``5.x.x``, please see changes log there, also migration steps.
+  Specially fhirfield value is now saved as ``string`` and have to use getter/setter method to access fhir resource value from content/object.
+
+Improvements
+
+- One of the best performances, database optmized version ever!
+
+- ``FHIRModelServiceMixin`` class has been available under ``utils`` module, which can be used with your ``plone.restapi``
+  services to response ``FhirModel`` aka pydantic's ``BaseModel`` object with the best possible effecient way.
 
 
 0.5.0 (2020-08-18)

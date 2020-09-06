@@ -13,7 +13,7 @@ from zope.publisher.interfaces import IPublishTraverse
 
 
 @implementer(IPublishTraverse)
-class FHIRSearchService(Service, FHIRModelServiceMixin):
+class FHIRSearchService(FHIRModelServiceMixin, Service):
     """ """
 
     def __init__(self, context, request):
@@ -41,7 +41,6 @@ class FHIRSearchService(Service, FHIRModelServiceMixin):
     def reply(self):
         """ """
         bundle = self.build_result()
-
         if self.resource_id:
             if bundle.total == 0:
                 return self.reply_no_content(status=404)

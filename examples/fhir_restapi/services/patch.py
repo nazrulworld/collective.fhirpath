@@ -18,9 +18,8 @@ import plone.protect.interfaces
 
 
 @implementer(IPublishTraverse)
-class FHIRResourcePatch(Service, FHIRModelServiceMixin):
-    """Patch a FHIR Resource object.
-    """
+class FHIRResourcePatch(FHIRModelServiceMixin, Service):
+    """Patch a FHIR Resource object."""
 
     def __init__(self, context, request):
         """ """

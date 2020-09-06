@@ -22,6 +22,7 @@ COPY constraints_plone52.txt /constraints_plone52.txt
 # Install buildout
 RUN pip install -r /requirements.txt
 COPY . /app
-RUN cd /app && buildout -c buildout.cfg
-# RUN /app/bin/test
-ENTRYPOINT ["/bin/bash", "-i", "-t"]
+RUN cd /app && buildout -c docker.cfg
+RUN /app/bin/test -t test_setup
+RUN /app/bin/instance start
+EXPOSE 8989

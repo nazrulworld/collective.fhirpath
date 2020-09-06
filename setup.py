@@ -72,8 +72,8 @@ setup(
     url="https://github.com/collective/collective.fhirpath",
     project_urls={
         "PyPI": "https://pypi.python.org/pypi/collective.fhirpath",
-        "Source": "https://github.com/collective/collective.fhirpath",
-        "Tracker": "https://github.com/collective/collective.fhirpath/issues",
+        "Source": "https://github.com/nazrulworld/collective.fhirpath",
+        "Tracker": "https://github.com/nazrulworld/collective.fhirpath/issues",
         'Documentation': 'https://collective-fhirpath.readthedocs.io/en/latest/',
     },
     license="GPL version 2",

@@ -167,6 +167,26 @@ FHIR Query::
     True
 
 
+Use ``FHIRModelServiceMixin``
+-----------------------------
+
+For better performance optimization, you should use ``FHIRModelServiceMixin`` to response ``FHIRModel`` efficiently.
+
+Example 1::
+
+    >>> from plone.restapi.services import Service
+    >>> from collective.fhirpath.utils import FHIRModelServiceMixin
+    >>> class MyFHIRGetService(FHIRModelServiceMixin, Service):
+    ....     """ """
+    ....     def reply(self):
+    ....        # do return bellow's types of data
+    ....        # could be ``dict`` type data
+    ....        # could be instance of ``FHIRAbstractModel`` derrived class.
+    ....        # or self.reply_no_content()
+
+
+
+
 configuration
 -------------
 

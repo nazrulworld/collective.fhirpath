@@ -24,9 +24,8 @@ __author__ = "Md Nazrul Islam <nazrul@zitelab.dk>"
 
 
 @implementer(IPublishTraverse)
-class FHIRResourceAdd(Service, FHIRModelServiceMixin):
-    """Creates a new FHIR Resource object.
-    """
+class FHIRResourceAdd(FHIRModelServiceMixin, Service):
+    """Creates a new FHIR Resource object."""
 
     def __init__(self, context, request):
         """ """
@@ -116,7 +115,7 @@ class FHIRResourceAdd(Service, FHIRModelServiceMixin):
         add_obj(context, obj, rename=False)
 
         self.request.response.setStatus(201)
-        response = getattr(obj, fhir_field_name)
+        response = obj.get_resource()
 
         self.request.response.setHeader(
             "Location",
