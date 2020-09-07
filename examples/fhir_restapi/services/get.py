@@ -10,6 +10,8 @@ from zope.component import queryMultiAdapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
+import json
+
 
 @implementer(IPublishTraverse)
 class FHIRSearchService(Service):
@@ -45,9 +47,9 @@ class FHIRSearchService(Service):
             if bundle.total == 0:
                 self.request.response.setStatus(404)
                 return None
-            return bundle.entry[0].resource.as_json()
+            return json.loads(bundle.entry[0].resource.json())
 
-        return bundle.as_json()
+        return json.loads(bundle.json())
 
     def publishTraverse(self, request, name):  # noqa: N802
         # Consume any path segments after /@fhir as parameters

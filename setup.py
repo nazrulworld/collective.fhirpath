@@ -22,7 +22,7 @@ install_requires = [
     "plone.restapi",
     "plone.app.dexterity",
     "collective.elasticsearch>=3.0.4",
-    "plone.app.fhirfield>=4.0.0",
+    "plone.app.fhirfield>=4.0.0,<5.0.0",
     "fhirpath>=0.7.1",
 ]
 

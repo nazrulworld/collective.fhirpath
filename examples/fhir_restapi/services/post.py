@@ -115,7 +115,7 @@ class FHIRResourceAdd(Service):
         add_obj(context, obj, rename=False)
 
         self.request.response.setStatus(201)
-        response = getattr(obj, fhir_field_name).as_json()
+        response = json.loads(getattr(obj, fhir_field_name).json())
 
         self.request.response.setHeader(
             "Location",
