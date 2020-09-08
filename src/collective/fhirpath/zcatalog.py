@@ -107,9 +107,7 @@ def zcatalog_fhir_search(context, query_string=None, params=None):
     if "size" in compiled:
         del compiled["size"]
 
-    query_params = {
-        "stored_fields": "path.path"
-    }
+    query_params = {"stored_fields": "path.path"}
     result = ElasticResult(context.engine.es_catalog, compiled, **query_params)
     factory = BrainFactory(context.engine.es_catalog.catalog)
     return LazyMap(factory, result, result.count)

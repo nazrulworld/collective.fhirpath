@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition.interfaces import IAcquirer
+from collective.fhirpath.utils import FHIRModelServiceMixin
 from plone.restapi.deserializer import json_body
 from plone.restapi.exceptions import DeserializationError
 from plone.restapi.interfaces import IDeserializeFromJson
@@ -23,7 +24,7 @@ __author__ = "Md Nazrul Islam <nazrul@zitelab.dk>"
 
 
 @implementer(IPublishTraverse)
-class FHIRResourceAdd(Service):
+class FHIRResourceAdd(FHIRModelServiceMixin, Service):
     """Creates a new FHIR Resource object.
     """
 
@@ -55,7 +56,7 @@ class FHIRResourceAdd(Service):
 
         response = self._create_object(data)
 
-        if "error" in response:
+        if isinstance(response, dict) and "error" in response:
             self.request.response.setStatus(400)
 
         return response
@@ -115,7 +116,7 @@ class FHIRResourceAdd(Service):
         add_obj(context, obj, rename=False)
 
         self.request.response.setStatus(201)
-        response = json.loads(getattr(obj, fhir_field_name).json())
+        response = getattr(obj, fhir_field_name)
 
         self.request.response.setHeader(
             "Location",
@@ -123,8 +124,8 @@ class FHIRResourceAdd(Service):
                 [
                     self.context.portal_url(),
                     "@fhir",
-                    response["resourceType"],
-                    response["id"],
+                    response.resource_type,
+                    response.id,
                 ]
             ),
         )

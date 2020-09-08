@@ -2,10 +2,14 @@ Changelog
 =========
 
 
-0.5.1 (unreleased)
+0.6.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+
+Improvements
+
+- ``FHIRModelServiceMixin`` class has been available under ``utils`` module, which can be used with your ``plone.restapi``
+  services to response type as ``FhirModel`` aka pydantic's ``BaseModel`` or ``plone.app.fhirfield.FhirFieldValue`` object with the best possible effecient way.
 
 
 0.5.0 (2020-08-18)

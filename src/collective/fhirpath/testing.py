@@ -45,6 +45,7 @@ class CollectiveFhirpathLayer(PloneSandboxLayer):
         self.loadZCML(package=plone.app.fhirfield)
 
         import collective.MockMailHost
+
         self.loadZCML(package=collective.MockMailHost)
 
         import collective.fhirpath
