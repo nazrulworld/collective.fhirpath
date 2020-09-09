@@ -5,7 +5,7 @@ Changelog
 0.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- ``plone.app.fhirfield:default``has been added in dependency, so no need separete install of ``plone.app.fhirfield``.
 
 
 0.6.0 (2020-09-09)
