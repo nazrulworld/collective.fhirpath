@@ -138,3 +138,5 @@ class FHIRModelServiceMixin:
             return json.dumps(
                 content, indent=2, sort_keys=True, separators=(", ", ": ")
             )
+        elif isinstance(content, list):
+            return json.dumps(content, indent=2, separators=(", ", ": "))

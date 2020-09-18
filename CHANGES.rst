@@ -5,7 +5,9 @@ Changelog
 0.6.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Fixes
+
+- ``utils.FHIRModelServiceMixin`` can now handle ``list`` type data in response.
 
 
 0.6.1 (2020-09-09)
