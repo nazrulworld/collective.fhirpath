@@ -5,6 +5,11 @@ Changelog
 0.6.2 (unreleased)
 ------------------
 
+Improvements
+
+- Issue #2 `ZCatalog based search should have option to return bundle type alongside as LazyBrain <https://github.com/nazrulworld/collective.fhirpath/issues/2>`_
+
+
 Fixes
 
 - ``utils.FHIRModelServiceMixin`` can now handle ``list`` type data in response.

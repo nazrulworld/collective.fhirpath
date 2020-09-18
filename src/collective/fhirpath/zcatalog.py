@@ -1,7 +1,14 @@
 # _*_ coding: utf-8 _*_
+from .interfaces import IFhirResourceExtractor
 from collective.elasticsearch.brain import BrainFactory
+from fhirpath.engine.base import EngineResult
+from fhirpath.engine.base import EngineResultBody
+from fhirpath.engine.base import EngineResultHeader
+from fhirpath.engine.base import EngineResultRow
 from fhirpath.search import Search
+from plone.app.fhirfield import IFhirResourceValue
 from Products.ZCatalog.Lazy import LazyMap
+from zope.component import queryMultiAdapter
 
 import math
 
@@ -78,7 +85,29 @@ class ElasticResult(object):
             return self.results[result_key][result_index]
 
 
-def zcatalog_fhir_search(context, query_string=None, params=None):
+def build_engine_result(lazy_maps):
+    """ """
+    total = 0
+    body = EngineResultBody()
+
+    for brain in lazy_maps:
+        row = EngineResultRow()
+        extractor = queryMultiAdapter((brain.getObject(),), IFhirResourceExtractor)
+        assert extractor
+        val = extractor()
+        if IFhirResourceValue.providedBy(val):
+            val = val.foreground_origin()
+        row.append(val)
+        body.append(row)
+        total += 1
+
+    result = EngineResult(header=EngineResultHeader(total=total), body=body)
+    return result
+
+
+def zcatalog_fhir_search(
+    context, query_string=None, params=None, bundle_response=False
+):
     """ """
     query_result = Search(
         context=context, query_string=query_string, params=params
@@ -107,4 +136,11 @@ def zcatalog_fhir_search(context, query_string=None, params=None):
     query_params = {"stored_fields": "path.path"}
     result = ElasticResult(context.engine.es_catalog, compiled, **query_params)
     factory = BrainFactory(context.engine.es_catalog.catalog)
-    return LazyMap(factory, result, result.count)
+    lazy_maps = LazyMap(factory, result, result.count)
+
+    if bundle_response is False:
+        return lazy_maps
+
+    engine_result = build_engine_result(lazy_maps)
+
+    return context.engine.wrapped_with_bundle(engine_result)

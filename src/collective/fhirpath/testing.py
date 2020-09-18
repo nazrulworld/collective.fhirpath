@@ -16,6 +16,7 @@ TEST_ZCML = """\
 <configure
     xmlns="http://namespaces.zope.org/zope">
     <include package="fhir_restapi.services" />
+    <adapter factory="collective.fhirpath.tests.schema.FhirResourceExtractor" />
 </configure>
 """
 EXAMPLE_RESTAPI_DIR = (

@@ -10,3 +10,7 @@ class ICollectiveFhirpathLayer(IDefaultBrowserLayer):
 
 class IZCatalogFhirSearch(Interface):
     """ """
+
+
+class IFhirResourceExtractor(Interface):
+    """ """

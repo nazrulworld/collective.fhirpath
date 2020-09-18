@@ -823,7 +823,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
                 "code": "91107009",
                 "display": "Caffeine",
                 "system": "http://snomed.info/91107009",
-            }
+            },
         ]
         fhir_json_copy["code"]["text"] = "Paracetamol (substance)"
 
@@ -943,3 +943,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         params = (("subject:above", device_id),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 1)
+
+    def test_issue2_as_buldle_response(self):
+        """ """
+        self.load_contents()
+        context = self.get_context("Task", True)
+        result = zcatalog_fhir_search(context, bundle_response=True)
+
+        self.assertTrue(result.resource_type == "Bundle")
+        self.assertTrue(result.total, 3)

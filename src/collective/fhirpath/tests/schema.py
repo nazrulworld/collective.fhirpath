@@ -1,8 +1,11 @@
 # _*_ coding: utf-8 _*_
+from collective.fhirpath.interfaces import IFhirResourceExtractor
 from plone.app.fhirfield import FhirResource
 from plone.dexterity.content import Container
 from plone.dexterity.content import Item
+from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from zope.component import adapter
 from zope.interface import implementer
 
 
@@ -222,3 +225,16 @@ class IMedia(model.Schema):
 @implementer(IMedia)
 class Media(Item):
     """ """
+
+
+@implementer(IFhirResourceExtractor)
+@adapter(IDexterityContent)
+class FhirResourceExtractor:
+
+    def __init__(self, context):
+        """ """
+        self.context = context
+
+    def __call__(self):
+        """ """
+        return getattr(self.context, self.context.portal_type.lower() + "_resource")
