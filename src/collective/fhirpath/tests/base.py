@@ -129,7 +129,7 @@ class BaseTesting(unittest.TestCase):
         with open(os.path.join(FHIR_FIXTURE_PATH, "Organization.json"), "r") as f:
             json_value = json.load(f)
             json_value["id"] = "f002"
-            json_value["meta"]["lastUpdated"] = "2015-05-28T05:35:56+00:00"
+            json_value["meta"]["lastUpdated"] = "2015-05-28T05:35:56+01:00"
             json_value["meta"]["profile"] = ["http://hl7.org/fhir/Organization"]
             json_value["name"] = "Hamid Patuary University"
             self.admin_browser.getControl(

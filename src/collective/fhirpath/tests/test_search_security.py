@@ -112,7 +112,7 @@ class SearchSecurityFunctionalTest(BaseFunctionalTesting):
         self.commit()
         time.sleep(1)
         logout()
-        params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
+        params = [("_lastUpdated", "2010-05-28T05:35:56+01:00")]
         search_factory = self.get_factory("Organization", unrestricted=False)
         with api.env.adopt_user(username=PATIENT_USER_NAME):
             bundle = search_factory(params)

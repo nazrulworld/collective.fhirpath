@@ -42,8 +42,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
     def test_search_using_zcatalog_factory(self):
         """ """
         self.load_contents()
-
-        params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
+        params = [("_lastUpdated", "2010-05-28T05:35:56+01:00")]
         context = self.get_context("Organization", True)
         factory = queryMultiAdapter((context,), IZCatalogFhirSearch)
 
@@ -66,14 +65,14 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         # ************ FIXTURES ARE LOADED **************
         # test:1 equal to
         context = self.get_context("Organization", False)
-        params = (("_lastUpdated", "2010-05-28T05:35:56+00:00"),)
+        params = (("_lastUpdated", "2010-05-28T05:35:56+01:00"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # result should contains only item
         self.assertEqual(len(brains), 1)
         self.assertEqual(brains[0].getObject().organization_resource.id, "f001")
 
         # test:2 not equal to
-        params = (("_lastUpdated", "ne2015-05-28T05:35:56+00:00"),)
+        params = (("_lastUpdated", "ne2015-05-28T05:35:56+01:00"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # result should contains two items
         self.assertEqual(len(brains), 2)
@@ -85,21 +84,21 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertEqual(len(brains), 3)
 
         # test:4 less than or equal to
-        params = (("_lastUpdated", "le2015-05-28T05:35:56+00:00"),)
+        params = (("_lastUpdated", "le2015-05-28T05:35:56+01:00"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # result should contains two items,
-        # 2010-05-28T05:35:56+00:00 + 2015-05-28T05:35:56+00:00
+        # 2010-05-28T05:35:56+01:00 + 2015-05-28T05:35:56+01:00
         self.assertEqual(len(brains), 2)
 
         # test:5 greater than
-        params = (("_lastUpdated", "gt2015-05-28T05:35:56+00:00"),)
+        params = (("_lastUpdated", "gt2015-05-28T05:35:56+01:00"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # result should contains only item
         self.assertEqual(len(brains), 1)
         self.assertEqual(brains[0].getObject().organization_resource.id, "f003")
 
         # test:6 greater than or equal to
-        params = (("_lastUpdated", "ge2015-05-28T05:35:56+00:00"),)
+        params = (("_lastUpdated", "ge2015-05-28T05:35:56+01:00"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         # result should contains only item
         self.assertEqual(len(brains), 2)
@@ -142,7 +141,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertEqual(len(brains), 1)
 
         # test with combinition with lastUpdated
-        params = (("status", "ready"), ("_lastUpdated", "lt2018-01-15T06:31:18+00:00"))
+        params = (("status", "ready"), ("_lastUpdated", "lt2018-01-15T06:31:18+01:00"))
 
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
@@ -736,8 +735,8 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.load_contents()
         context = self.get_context("Task", True)
         params = [
-            ("_lastUpdated", "gt2015-10-15T06:31:18+00:00"),
-            ("_lastUpdated", "lt2018-01-15T06:31:18+00:00"),
+            ("_lastUpdated", "gt2015-10-15T06:31:18+01:00"),
+            ("_lastUpdated", "lt2018-01-15T06:31:18+01:00"),
         ]
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
 
@@ -819,6 +818,11 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
                 "code": "387517004",
                 "display": "Paracetamol",
                 "system": "http://snomed.info/387517004",
+            },
+            {
+                "code": "91107009",
+                "display": "Caffeine",
+                "system": "http://snomed.info/91107009",
             }
         ]
         fhir_json_copy["code"]["text"] = "Paracetamol (substance)"
@@ -867,7 +871,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             (
                 "code:not",
                 (
-                    "http://snomed.info/sct|F01510,"
+                    "http://snomed.info/387517004|FF009,"
                     "http://snomed.info/387137007|387137007"
                 ),
             ),

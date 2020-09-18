@@ -13,7 +13,6 @@ from fhirpath.interfaces import ISearchContext
 from fhirpath.interfaces import ISearchContextFactory
 from fhirpath.search import fhir_search
 from fhirpath.search import SearchContext
-from plone.api.validation import at_least_one_of
 from plone.api.validation import mutually_exclusive_parameters
 from zope.component import adapter
 from zope.interface import implementer
@@ -85,7 +84,6 @@ class FhirSearch:
         """ """
         self.context = context
 
-    @at_least_one_of("query_string", "params")
     @mutually_exclusive_parameters("query_string", "params")
     def __call__(self, params=None, query_string=None):
         """ """
@@ -101,7 +99,6 @@ class ZCatalogFhirSearch:
         """ """
         self.context = context
 
-    @at_least_one_of("query_string", "params")
     @mutually_exclusive_parameters("query_string", "params")
     def __call__(self, query_string=None, params=None):
         """ """

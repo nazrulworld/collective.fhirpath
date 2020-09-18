@@ -85,16 +85,13 @@ def zcatalog_fhir_search(context, query_string=None, params=None):
     ).build()
 
     query_copy = query_result._query.clone()
-    resource_type = context.resource_name
-    field_index_name = context.engine.calculate_field_index_name(resource_type)
-
     if context.unrestricted is False:
         context.engine.build_security_query(query_copy)
 
     params = {
         "query": query_copy,
-        "root_replacer": field_index_name,
-        "mapping": context.engine.get_mapping(resource_type),
+        "calculate_field_index_name": context.engine.calculate_field_index_name,
+        "get_mapping": context.engine.get_mapping,
     }
 
     compiled = context.engine.dialect.compile(**params)

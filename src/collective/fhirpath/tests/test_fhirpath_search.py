@@ -41,7 +41,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
         """ """
         self.load_contents()
 
-        params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
+        params = [("_lastUpdated", "2010-05-28T05:35:56+01:00")]
         search_factory = self.get_factory("Organization", True)
         bundle = search_factory(params)
         self.assertEqual(len(bundle.entry), 1)
@@ -59,7 +59,7 @@ class FhirPathPloneSearchFunctional(BaseFunctionalTesting):
     def test_permission_aware_search(self):
         """ """
         self.load_contents()
-        params = [("_lastUpdated", "2010-05-28T05:35:56+00:00")]
+        params = [("_lastUpdated", "2010-05-28T05:35:56+01:00")]
         search_factory = self.get_factory("Organization", False)
 
         bundle = search_factory(params)
