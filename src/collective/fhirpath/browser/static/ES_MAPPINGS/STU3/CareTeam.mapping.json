@@ -1,7 +1,7 @@
 {
   "resourceType": "CareTeam",
   "meta": {
-    "lastUpdated": "2020-03-15T16:44:24+06:00",
+    "lastUpdated": "2020-09-22T22:37:36+02:00",
     "versionId": "STU3"
   },
   "mapping": {
@@ -81,18 +81,20 @@
       "subject": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "context": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -144,9 +146,10 @@
       "reasonReference": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -154,9 +157,10 @@
       "managingOrganization": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -166,9 +170,10 @@
           "authorReference": {
             "properties": {
               "reference": {
-                "type": "keyword",
+                "type": "text",
                 "index": true,
-                "store": false
+                "store": false,
+                "analyzer": "fhir_reference_analyzer"
               }
             }
           },

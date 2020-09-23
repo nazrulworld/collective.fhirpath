@@ -1,7 +1,7 @@
 {
   "resourceType": "MessageHeader",
   "meta": {
-    "lastUpdated": "2020-03-15T16:44:10+06:00",
+    "lastUpdated": "2020-09-22T22:40:33+02:00",
     "versionId": "R4"
   },
   "mapping": {
@@ -33,36 +33,40 @@
       "sender": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "enterer": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "author": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "responsible": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -99,9 +103,10 @@
       "focus": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -112,9 +117,10 @@
         "store": false
       },
       "id": {
-        "type": "keyword",
+        "type": "text",
         "index": true,
-        "store": false
+        "store": false,
+        "analyzer": "standard"
       },
       "meta": {
         "properties": {

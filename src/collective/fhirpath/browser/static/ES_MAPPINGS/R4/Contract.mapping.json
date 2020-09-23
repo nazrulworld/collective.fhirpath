@@ -1,7 +1,7 @@
 {
   "resourceType": "Contract",
   "meta": {
-    "lastUpdated": "2020-03-15T16:44:10+06:00",
+    "lastUpdated": "2020-09-22T22:40:33+02:00",
     "versionId": "R4"
   },
   "mapping": {
@@ -85,9 +85,10 @@
       "instantiatesCanonical": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -178,9 +179,10 @@
       "subject": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -188,9 +190,10 @@
       "authority": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -198,9 +201,10 @@
       "domain": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -208,9 +212,10 @@
       "site": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -242,9 +247,10 @@
       "author": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -311,9 +317,10 @@
       "topicReference": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -381,9 +388,10 @@
       "supportingInfo": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -391,9 +399,10 @@
       "relevantHistory": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -426,16 +435,18 @@
       "legallyBindingReference": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "id": {
-        "type": "keyword",
+        "type": "text",
         "index": true,
-        "store": false
+        "store": false,
+        "analyzer": "standard"
       },
       "meta": {
         "properties": {

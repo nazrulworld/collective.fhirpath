@@ -934,13 +934,14 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertEqual(len(brains), 2)
 
         # Search By Multiple Ids
+        # no need above
         params = (
-            ("subject:above", device_id + "," + json_value1["subject"]["reference"]),
+            ("subject", device_id + "," + json_value1["subject"]["reference"]),
         )
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 2)
 
-        params = (("subject:above", device_id),)
+        params = (("subject", device_id),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 1)
 

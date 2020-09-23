@@ -1,7 +1,7 @@
 {
   "resourceType": "PaymentNotice",
   "meta": {
-    "lastUpdated": "2020-03-15T16:44:24+06:00",
+    "lastUpdated": "2020-09-22T22:37:36+02:00",
     "versionId": "STU3"
   },
   "mapping": {
@@ -44,18 +44,20 @@
       "request": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "response": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -72,27 +74,30 @@
       "target": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "provider": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "organization": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },

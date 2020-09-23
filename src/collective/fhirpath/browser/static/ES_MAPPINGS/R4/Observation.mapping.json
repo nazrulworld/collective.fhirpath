@@ -1,7 +1,7 @@
 {
   "resourceType": "Observation",
   "meta": {
-    "lastUpdated": "2020-03-15T16:44:10+06:00",
+    "lastUpdated": "2020-09-22T22:40:33+02:00",
     "versionId": "R4"
   },
   "mapping": {
@@ -39,9 +39,10 @@
       "basedOn": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -49,9 +50,10 @@
       "partOf": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -125,18 +127,20 @@
       "subject": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "focus": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -144,9 +148,10 @@
       "encounter": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -221,9 +226,10 @@
       "performer": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -485,9 +491,10 @@
           "authorReference": {
             "properties": {
               "reference": {
-                "type": "keyword",
+                "type": "text",
                 "index": true,
-                "store": false
+                "store": false,
+                "analyzer": "fhir_reference_analyzer"
               }
             }
           },
@@ -574,27 +581,30 @@
       "specimen": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "device": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "hasMember": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -602,17 +612,19 @@
       "derivedFrom": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
       },
       "id": {
-        "type": "keyword",
+        "type": "text",
         "index": true,
-        "store": false
+        "store": false,
+        "analyzer": "standard"
       },
       "meta": {
         "properties": {

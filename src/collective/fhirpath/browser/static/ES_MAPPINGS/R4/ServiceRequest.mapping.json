@@ -1,7 +1,7 @@
 {
   "resourceType": "ServiceRequest",
   "meta": {
-    "lastUpdated": "2020-03-15T16:44:11+06:00",
+    "lastUpdated": "2020-09-22T22:40:33+02:00",
     "versionId": "R4"
   },
   "mapping": {
@@ -49,9 +49,10 @@
       "basedOn": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -59,9 +60,10 @@
       "replaces": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -332,18 +334,20 @@
       "subject": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
       "encounter": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -447,9 +451,10 @@
       "requester": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         }
       },
@@ -486,9 +491,10 @@
       "performer": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -527,9 +533,10 @@
       "locationReference": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -568,9 +575,10 @@
       "reasonReference": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -578,9 +586,10 @@
       "insurance": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -588,9 +597,10 @@
       "supportingInfo": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -598,9 +608,10 @@
       "specimen": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
@@ -641,9 +652,10 @@
           "authorReference": {
             "properties": {
               "reference": {
-                "type": "keyword",
+                "type": "text",
                 "index": true,
-                "store": false
+                "store": false,
+                "analyzer": "fhir_reference_analyzer"
               }
             }
           },
@@ -676,17 +688,19 @@
       "relevantHistory": {
         "properties": {
           "reference": {
-            "type": "keyword",
+            "type": "text",
             "index": true,
-            "store": false
+            "store": false,
+            "analyzer": "fhir_reference_analyzer"
           }
         },
         "type": "nested"
       },
       "id": {
-        "type": "keyword",
+        "type": "text",
         "index": true,
-        "store": false
+        "store": false,
+        "analyzer": "standard"
       },
       "meta": {
         "properties": {

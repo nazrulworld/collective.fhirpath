@@ -1,7 +1,7 @@
 {
   "resourceType": "Practitioner",
   "meta": {
-    "lastUpdated": "2020-03-15T16:44:10+06:00",
+    "lastUpdated": "2020-09-22T22:40:33+02:00",
     "versionId": "R4"
   },
   "mapping": {
@@ -150,6 +150,12 @@
             "type": "keyword",
             "index": true,
             "store": false
+          },
+          "text": {
+            "type": "text",
+            "index": true,
+            "store": false,
+            "analyzer": "standard"
           }
         },
         "type": "nested"
@@ -222,9 +228,10 @@
         "type": "nested"
       },
       "id": {
-        "type": "keyword",
+        "type": "text",
         "index": true,
-        "store": false
+        "store": false,
+        "analyzer": "standard"
       },
       "meta": {
         "properties": {

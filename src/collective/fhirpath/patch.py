@@ -29,6 +29,7 @@ def MappingAdapter_get_index_creation_body(self):
                 },
             }
         }
+        # removed from ES 7.1.x
         settings["index.mapper.dynamic"] = False
 
     except KeyError:
@@ -42,6 +43,23 @@ def MappingAdapter_get_index_creation_body(self):
         """
         warnings.warn(msg, UserWarning)
 
+    settings["analysis"] = {
+        "analyzer": {
+            "fhir_reference_analyzer": {
+                "tokenizer": "keyword",
+                "filter": ["fhir_reference_filter"],
+            },
+        },
+        "filter": {
+            "fhir_reference_filter": {
+                "type": "pattern_capture",
+                "preserve_original": True,
+                "patterns": [r"(?:\w+\/)?(https?\:\/\/.*|[a-zA-Z0-9_-]+)"],
+            },
+        },
+        "char_filter": {},
+        "tokenizer": {},
+    }
     return dict(settings=settings)
 
 
