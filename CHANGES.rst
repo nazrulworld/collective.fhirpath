@@ -2,13 +2,16 @@ Changelog
 =========
 
 
-0.6.2 (unreleased)
+0.7.0 (unreleased)
 ------------------
 
 Improvements
 
 - Issue #2 `ZCatalog based search should have option to return bundle type alongside as LazyBrain <https://github.com/nazrulworld/collective.fhirpath/issues/2>`_
 
+- Supports all features from ``fhirpath`` 0.8.0.
+
+- Elasticsearch Mappings JSON files are updated.
 
 Fixes
 
