@@ -23,15 +23,11 @@ install_requires = [
     "plone.app.dexterity",
     "collective.elasticsearch>=3.0.4",
     "plone.app.fhirfield>=4.1.0,<5.0.0",
-    "fhirpath>=0.7.1",
+    "fhirpath>=0.8.0",
 ]
 
 test_requires = [
     "plone.app.testing",
-    # Plone KGS does not use this version, because it would break
-    # Remove if your package shall be part of coredev.
-    # plone_coredev tests as of 2016-04-01.
-    "plone.testing>=7.0.1",
     "plone.app.contenttypes",
     "plone.app.robotframework[debug]",
     "collective.MockMailHost"
