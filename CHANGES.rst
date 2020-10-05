@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.7.1 (unreleased)
+0.7.1 (2020-10-05)
 ------------------
 
 - ``fhirpath``minimum version has been updated, which includes minimum ``fhir.resources`` version ``6.0.0b5``.
