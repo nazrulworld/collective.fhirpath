@@ -1,6 +1,8 @@
 # _*_ coding: utf-8 _*_
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.storage import MemoryStorage
+from fhirpath.utils import json_dumps
+from fhirpath.utils import json_loads
 from plone import api
 from plone.app.fhirfield.interfaces import IFhirResource
 from plone.app.fhirfield.interfaces import IFhirResourceValue
@@ -10,7 +12,6 @@ from pydantic import BaseModel
 from zope.component import getUtility
 from zope.schema import getFields
 
-import json
 import os
 
 
@@ -57,8 +58,8 @@ def get_elasticsearch_mapping(
                 )
             )
 
-        with open(os.path.join(root, file_location), "r") as f:
-            content = json.load(f)
+        with open(os.path.join(root, file_location), "rb") as f:
+            content = json_loads(f.read())
             assert filename.split(".")[0] == content["resourceType"]
 
             storage[resource] = content
@@ -132,11 +133,9 @@ class FHIRModelServiceMixin:
                 return _no_content_marker
 
         if isinstance(content, BaseModel):
-            return content.json(indent=2, sort_keys=True, separators=(", ", ": "))
+            return content.json(indent=2, sort_keys=True)
 
         elif isinstance(content, dict):
-            return json.dumps(
-                content, indent=2, sort_keys=True, separators=(", ", ": ")
-            )
+            return json_dumps(content, indent=2, sort_keys=True)
         elif isinstance(content, list):
-            return json.dumps(content, indent=2, separators=(", ", ": "))
+            return json_dumps(content, indent=2)

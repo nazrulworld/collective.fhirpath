@@ -5,7 +5,9 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- ``fhirpath``minimum version has been updated, which includes minimum ``fhir.resources`` version ``6.0.0b5``.
+
+- Improvements for ``FHIRModelServiceMixin`` as orjson serializer used.
 
 
 0.7.0 (2020-09-25)

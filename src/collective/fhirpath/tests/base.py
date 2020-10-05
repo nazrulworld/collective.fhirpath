@@ -89,9 +89,9 @@ class BaseTesting(unittest.TestCase):
 
     def enable_event_log(self, loggers=None, plone_log_level="ERROR"):
         """
-            :param loggers: dict of loggers. format {'logger name': 'level name'}
-            :param plone_log_level: log level of plone. default is ERROR
-         """
+        :param loggers: dict of loggers. format {'logger name': 'level name'}
+        :param plone_log_level: log level of plone. default is ERROR
+        """
         defaults = {"collective.fhirpath": "INFO", "collective.elasticsearch": "DEBUG"}
         from Products.CMFPlone.log import logger
 

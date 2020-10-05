@@ -230,7 +230,6 @@ class Media(Item):
 @implementer(IFhirResourceExtractor)
 @adapter(IDexterityContent)
 class FhirResourceExtractor:
-
     def __init__(self, context):
         """ """
         self.context = context

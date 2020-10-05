@@ -79,7 +79,10 @@ class ElasticResult(object):
 
             if result_key not in self.results:
                 self.results[result_key] = self.es._search(
-                    self.query, sort=self.sort, start=start, **self.query_params,
+                    self.query,
+                    sort=self.sort,
+                    start=start,
+                    **self.query_params,
                 )["hits"]["hits"]
 
             return self.results[result_key][result_index]

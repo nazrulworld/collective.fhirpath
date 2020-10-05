@@ -255,8 +255,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIsNotNone(brains[0].getObject().patient_resource.gender)
 
     def test_missing_modifier_working(self):
-        """
-        """
+        """"""
         self.load_contents()
 
         # ------ Test in Complex Data Type -------------
@@ -805,8 +804,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertEqual(len(brains), 2)
 
     def test_issue_21_code_and_coding(self):
-        """Add Support for IN/OR query for token and other if possible search type
-        """
+        """Add Support for IN/OR query for token and other if possible search type"""
         results = self.load_contents()
         with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "r") as f:
             fhir_json = json.load(f)
@@ -935,9 +933,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         # Search By Multiple Ids
         # no need above
-        params = (
-            ("subject", device_id + "," + json_value1["subject"]["reference"]),
-        )
+        params = (("subject", device_id + "," + json_value1["subject"]["reference"]),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 2)
 

@@ -87,9 +87,7 @@ class ElasticsearchEngine(BaseEngine):
         query._where.extend(filters)
 
     def calculate_field_index_name(self, resource_type):
-        """1.) xxx: should be cached
-
-        """
+        """1.) xxx: should be cached"""
         # Products.CMFPlone.TypesTool.TypesTool
         types_tool = api.portal.get_tool("portal_types")
         factory = types_tool.getTypeInfo(resource_type)
