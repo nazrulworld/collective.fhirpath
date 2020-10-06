@@ -5,6 +5,8 @@ from collective.elasticsearch.interfaces import IElasticSettings
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_FUNCTIONAL_TESTING
 from collective.fhirpath.testing import COLLECTIVE_FHIRPATH_REST_FUNCTIONAL_TESTING
 from DateTime import DateTime
+from fhirpath.utils import json_dumps
+from fhirpath.utils import json_loads
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
@@ -14,7 +16,6 @@ from plone.registry.interfaces import IRegistry
 from plone.testing import z2
 from zope.component import getUtility
 
-import json
 import logging
 import os
 import pathlib
@@ -126,15 +127,15 @@ class BaseTesting(unittest.TestCase):
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
         ).value = "Hamid Patuary University"
-        with open(os.path.join(FHIR_FIXTURE_PATH, "Organization.json"), "r") as f:
-            json_value = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "Organization.json"), "rb") as f:
+            json_value = json_loads(f.read())
             json_value["id"] = "f002"
             json_value["meta"]["lastUpdated"] = "2015-05-28T05:35:56+01:00"
             json_value["meta"]["profile"] = ["http://hl7.org/fhir/Organization"]
             json_value["name"] = "Hamid Patuary University"
             self.admin_browser.getControl(
                 name="form.widgets.organization_resource"
-            ).value = json.dumps(json_value)
+            ).value = json_dumps(json_value)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         org2_url = self.admin_browser.url.replace("/view", "")
@@ -143,8 +144,8 @@ class BaseTesting(unittest.TestCase):
         self.admin_browser.getControl(
             name="form.widgets.IBasic.title"
         ).value = "Call trun University"
-        with open(os.path.join(FHIR_FIXTURE_PATH, "Organization.json"), "r") as f:
-            json_value = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "Organization.json"), "rb") as f:
+            json_value = json_loads(f.read())
             json_value["id"] = "f003"
             json_value["meta"]["lastUpdated"] = DateTime().ISO8601()
             json_value["meta"]["profile"] = [
@@ -154,7 +155,7 @@ class BaseTesting(unittest.TestCase):
             json_value["name"] = "Call trun University"
             self.admin_browser.getControl(
                 name="form.widgets.organization_resource"
-            ).value = json.dumps(json_value)
+            ).value = json_dumps(json_value)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         org3_url = self.admin_browser.url.replace("/view", "")
@@ -176,11 +177,11 @@ class BaseTesting(unittest.TestCase):
 
         # add tasks
         self.admin_browser.open(patient1_url + "/++add++Task")
-        with open(os.path.join(FHIR_FIXTURE_PATH, "ParentTask.json"), "r") as f:
-            json_value = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "ParentTask.json"), "rb") as f:
+            json_value = json_loads(f.read())
             self.admin_browser.getControl(
                 name="form.widgets.task_resource"
-            ).value = json.dumps(json_value)
+            ).value = json_dumps(json_value)
 
             self.admin_browser.getControl(
                 name="form.widgets.IBasic.title"
@@ -192,11 +193,11 @@ class BaseTesting(unittest.TestCase):
         task1_url = self.admin_browser.url.replace("/view", "")
 
         self.admin_browser.open(patient1_url + "/++add++Task")
-        with open(os.path.join(FHIR_FIXTURE_PATH, "SubTask_HAQ.json"), "r") as f:
-            json_value = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "SubTask_HAQ.json"), "rb") as f:
+            json_value = json_loads(f.read())
             self.admin_browser.getControl(
                 name="form.widgets.task_resource"
-            ).value = json.dumps(json_value)
+            ).value = json_dumps(json_value)
 
             self.admin_browser.getControl(
                 name="form.widgets.IBasic.title"
@@ -208,11 +209,11 @@ class BaseTesting(unittest.TestCase):
         task2_url = self.admin_browser.url.replace("/view", "")
 
         self.admin_browser.open(patient1_url + "/++add++Task")
-        with open(os.path.join(FHIR_FIXTURE_PATH, "SubTask_CRP.json"), "r") as f:
-            json_value = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "SubTask_CRP.json"), "rb") as f:
+            json_value = json_loads(f.read())
             self.admin_browser.getControl(
                 name="form.widgets.task_resource"
-            ).value = json.dumps(json_value)
+            ).value = json_dumps(json_value)
 
             self.admin_browser.getControl(
                 name="form.widgets.IBasic.title"
@@ -259,13 +260,7 @@ class BaseFunctionalTesting(BaseTesting):
             es_only_indexes={
                 "Title",
                 "Description",
-                "SearchableText",
-                "organization_resource",
-                "patient_resource",
-                "questionnaire_resource",
-                "questionnaireresponse_resource",
-                "task_resource",
-                "valueset_resource",
+                "SearchableText"
             },
         )
 

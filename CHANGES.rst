@@ -5,7 +5,7 @@ Changelog
 0.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Bundle resposne as ``dict`` option enable in ZCatalog based search.
 
 
 0.7.1 (2020-10-05)

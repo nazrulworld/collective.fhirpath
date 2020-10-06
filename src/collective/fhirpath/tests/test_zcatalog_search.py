@@ -8,12 +8,14 @@ from DateTime import DateTime
 from fhirpath.enums import FHIR_VERSION
 from fhirpath.interfaces import IElasticsearchEngineFactory
 from fhirpath.interfaces import ISearchContextFactory
+from fhirpath.utils import json_dumps
+from fhirpath.utils import json_loads
+from fhirpath.utils import lookup_fhir_class
 from plone import api
 from urllib.parse import urlencode
 from zope.component import queryMultiAdapter
 
 import copy
-import json
 import os
 import uuid
 
@@ -227,13 +229,13 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             name="form.widgets.IBasic.title"
         ).value = "Test Patient"
 
-        with open(str(FHIR_FIXTURE_PATH / "Patient.json"), "r") as f:
-            data = json.load(f)
+        with open(str(FHIR_FIXTURE_PATH / "Patient.json"), "rb") as f:
+            data = json_loads(f.read())
             data["id"] = "20c5245f-89a8-49f8-b244-666b32adb92e"
             data["gender"] = None
             self.admin_browser.getControl(
                 name="form.widgets.patient_resource"
-            ).value = json.dumps(data)
+            ).value = json_dumps(data)
 
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
@@ -362,12 +364,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill"
 
-        with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "r") as f:
-            fhir_json = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "rb") as f:
+            fhir_json = json_loads(f.read())
 
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json)
+        ).value = json_dumps(fhir_json)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         self.assertIn("chargeitem/view", self.admin_browser.url)
@@ -410,7 +412,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ).value = "Test Clinical Bill (USD)"
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json_copy)
+        ).value = json_dumps(fhir_json_copy)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
 
@@ -428,7 +430,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ).value = "Test Clinical Bill(BDT)"
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json_copy)
+        ).value = json_dumps(fhir_json_copy)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
@@ -479,12 +481,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill"
 
-        with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "r") as f:
-            fhir_json_charge_item = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "rb") as f:
+            fhir_json_charge_item = json_loads(f.read())
 
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json_charge_item)
+        ).value = json_dumps(fhir_json_charge_item)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
 
@@ -509,12 +511,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             name="form.widgets.IBasic.title"
         ).value = "Test Encounter"
 
-        with open(os.path.join(FHIR_FIXTURE_PATH, "Encounter.json"), "r") as f:
-            fhir_json = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "Encounter.json"), "rb") as f:
+            fhir_json = json_loads(f.read())
 
         self.admin_browser.getControl(
             name="form.widgets.encounter_resource"
-        ).value = json.dumps(fhir_json)
+        ).value = json_dumps(fhir_json)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
@@ -542,7 +544,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ).value = "Test Clinical Bill (USD)"
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json_copy)
+        ).value = json_dumps(fhir_json_copy)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
 
@@ -560,7 +562,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ).value = "Test Clinical Bill(BDT)"
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json_copy)
+        ).value = json_dumps(fhir_json_copy)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
@@ -586,12 +588,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill"
 
-        with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "r") as f:
-            fhir_json = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "rb") as f:
+            fhir_json = json_loads(f.read())
 
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json)
+        ).value = json_dumps(fhir_json)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
@@ -630,12 +632,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             name="form.widgets.IBasic.title"
         ).value = "Test Clinical Bill"
 
-        with open(os.path.join(FHIR_FIXTURE_PATH, "MedicationRequest.json"), "r") as f:
-            fhir_json = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "MedicationRequest.json"), "rb") as f:
+            fhir_json = json_loads(f.read())
 
         self.admin_browser.getControl(
             name="form.widgets.medicationrequest_resource"
-        ).value = json.dumps(fhir_json)
+        ).value = json_dumps(fhir_json)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
@@ -711,12 +713,12 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             name="form.widgets.IBasic.title"
         ).value = "Carbon dioxide in blood"
 
-        with open(os.path.join(FHIR_FIXTURE_PATH, "Observation.json"), "r") as f:
-            fhir_json = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "Observation.json"), "rb") as f:
+            fhir_json = json_loads(f.read())
 
         self.admin_browser.getControl(
             name="form.widgets.observation_resource"
-        ).value = json.dumps(fhir_json)
+        ).value = json_dumps(fhir_json)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
 
@@ -749,8 +751,8 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         new_procedure_request_id = str(uuid.uuid4())
         self.admin_browser.open(results[3] + "/++add++Task")
 
-        with open(os.path.join(FHIR_FIXTURE_PATH, "SubTask_HAQ.json"), "r") as f:
-            json_value = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "SubTask_HAQ.json"), "rb") as f:
+            json_value = json_loads(f.read())
             json_value["id"] = new_id
             json_value["status"] = "completed"
             json_value["for"]["reference"] = "Patient/" + new_patient_id
@@ -760,7 +762,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
             self.admin_browser.getControl(
                 name="form.widgets.task_resource"
-            ).value = json.dumps(json_value)
+            ).value = json_dumps(json_value)
 
             self.admin_browser.getControl(
                 name="form.widgets.IBasic.title"
@@ -806,8 +808,8 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
     def test_issue_21_code_and_coding(self):
         """Add Support for IN/OR query for token and other if possible search type"""
         results = self.load_contents()
-        with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "r") as f:
-            fhir_json = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "ChargeItem.json"), "rb") as f:
+            fhir_json = json_loads(f.read())
 
         fhir_json_copy = copy.deepcopy(fhir_json)
         fhir_json_copy["id"] = str(uuid.uuid4())
@@ -831,7 +833,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ).value = "Test Clinical Bill (USD)"
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json_copy)
+        ).value = json_dumps(fhir_json_copy)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
 
@@ -852,7 +854,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         ).value = "Test Clinical Bill(BDT)"
         self.admin_browser.getControl(
             name="form.widgets.chargeitem_resource"
-        ).value = json.dumps(fhir_json_copy)
+        ).value = json_dumps(fhir_json_copy)
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
@@ -887,11 +889,11 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertEqual(len(brains), 3)
 
         self.admin_browser.open(results[3] + "/++add++Observation")
-        with open(os.path.join(FHIR_FIXTURE_PATH, "Observation.json"), "r") as f:
-            json_value1 = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "Observation.json"), "rb") as f:
+            json_value1 = json_loads(f.read())
             self.admin_browser.getControl(
                 name="form.widgets.observation_resource"
-            ).value = json.dumps(json_value1)
+            ).value = json_dumps(json_value1)
 
             self.admin_browser.getControl(name="form.widgets.IBasic.title").value = (
                 json_value1["resourceType"] + json_value1["id"]
@@ -904,13 +906,13 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         device_id = str(uuid.uuid4())
         self.admin_browser.open(results[3] + "/++add++Observation")
-        with open(os.path.join(FHIR_FIXTURE_PATH, "Observation.json"), "r") as f:
-            json_value = json.load(f)
+        with open(os.path.join(FHIR_FIXTURE_PATH, "Observation.json"), "rb") as f:
+            json_value = json_loads(f.read())
             json_value["id"] = str(uuid.uuid4())
             json_value["subject"] = {"reference": "Device/" + device_id}
             self.admin_browser.getControl(
                 name="form.widgets.observation_resource"
-            ).value = json.dumps(json_value)
+            ).value = json_dumps(json_value)
 
             self.admin_browser.getControl(name="form.widgets.IBasic.title").value = (
                 json_value["resourceType"] + json_value["id"]
@@ -949,3 +951,17 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         self.assertTrue(result.resource_type == "Bundle")
         self.assertTrue(result.total, 3)
+
+    def test_bundle_response_as_dict(self):
+        """ """
+        self.load_contents()
+        context = self.get_context("Task", True)
+        result = zcatalog_fhir_search(
+            context, bundle_response=True, bundle_as_dict=True
+        )
+        self.assertIsInstance(result, dict)
+        try:
+            bundle = lookup_fhir_class("Bundle", FHIR_VERSION.STU3).parse_obj(result)
+            self.assertEqual(len(bundle.entry), len(result["entry"]))
+        except Exception:
+            raise AssertionError("Code should not come here.")

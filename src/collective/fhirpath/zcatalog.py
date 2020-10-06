@@ -109,7 +109,7 @@ def build_engine_result(lazy_maps):
 
 
 def zcatalog_fhir_search(
-    context, query_string=None, params=None, bundle_response=False
+    context, query_string=None, params=None, bundle_response=False, bundle_as_dict=False
 ):
     """ """
     query_result = Search(
@@ -146,4 +146,4 @@ def zcatalog_fhir_search(
 
     engine_result = build_engine_result(lazy_maps)
 
-    return context.engine.wrapped_with_bundle(engine_result)
+    return context.engine.wrapped_with_bundle(engine_result, as_json=bundle_as_dict)
