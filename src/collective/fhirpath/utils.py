@@ -7,6 +7,7 @@ from plone import api
 from plone.app.fhirfield.interfaces import IFhirResource
 from plone.app.fhirfield.interfaces import IFhirResourceValue
 from plone.behavior.interfaces import IBehavior
+from plone.restapi.exceptions import DeserializationError
 from plone.restapi.services import _no_content_marker
 from pydantic import BaseModel
 from zope.component import getUtility
@@ -105,6 +106,16 @@ def find_fhirfield_by_name(fieldname):
     return field_
 
 
+def json_body(request):
+    try:
+        data = json_loads(request.get("BODY") or b"{}")
+    except ValueError:
+        raise DeserializationError("No JSON object could be decoded")
+    if not isinstance(data, dict):
+        raise DeserializationError("Malformed body")
+    return data
+
+
 class FHIRModelServiceMixin:
     """This is performance optimized plone.restapi service's render mixin class
     for FHIRModel (fhir.resources) content. Avoiding redundant json serilization
@@ -120,8 +131,14 @@ class FHIRModelServiceMixin:
         """ """
         self.check_permission()
         content = self.reply()
-        if content is _no_content_marker:
+        if content is _no_content_marker or content is None:
             return
+
+        pretty = self.request.get("_pretty", "false") == "true"
+        dumps_params = {"return_bytes": True}
+        if pretty:
+            dumps_params["indent"] = 2
+            dumps_params["sort_keys"] = True
 
         self.request.response.setHeader("Content-Type", self.content_type)
 
@@ -133,9 +150,6 @@ class FHIRModelServiceMixin:
                 return _no_content_marker
 
         if isinstance(content, BaseModel):
-            return content.json(indent=2, sort_keys=True)
+            return content.json(**dumps_params)
 
-        elif isinstance(content, dict):
-            return json_dumps(content, indent=2, sort_keys=True)
-        elif isinstance(content, list):
-            return json_dumps(content, indent=2)
+        return json_dumps(content, **dumps_params)

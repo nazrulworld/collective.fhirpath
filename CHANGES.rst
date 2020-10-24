@@ -5,7 +5,9 @@ Changelog
 0.7.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- new helper function ``json_body`` has been created, which is using ``orjson`` deserializer.
+
+- ``FHIRModelServiceMixin`` is now more performance optimized.
 
 
 0.7.2 (2020-10-06)
