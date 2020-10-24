@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.7.3 (unreleased)
+0.7.3 (2020-10-24)
 ------------------
 
 - new helper function ``json_body`` has been created, which is using ``orjson`` deserializer.
