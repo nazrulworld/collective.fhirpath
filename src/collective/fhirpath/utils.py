@@ -1,8 +1,8 @@
 # _*_ coding: utf-8 _*_
 from fhirpath.enums import FHIR_VERSION
+from fhirpath.json import json_dumps
+from fhirpath.json import json_loads
 from fhirpath.storage import MemoryStorage
-from fhirpath.utils import json_dumps
-from fhirpath.utils import json_loads
 from plone import api
 from plone.app.fhirfield.interfaces import IFhirResource
 from plone.app.fhirfield.interfaces import IFhirResourceValue
