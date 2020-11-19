@@ -5,7 +5,7 @@ Changelog
 0.7.4 (unreleased)
 ------------------
 
-- Minimum ``fhirpath`` version ``0.10.4`` (see it's changes log) has been updated and added compabilities.
+- Minimum required ``fhirpath`` version is now ``0.10.4`` (see it's changes log) and added compabilities.
 
 
 0.7.3 (2020-10-24)
