@@ -727,7 +727,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         context = self.get_context("Observation", True)
         # Test simple composite
-        params = (("code-value-quantity", "http://loinc.org|11557-6&6.2"),)
+        params = (("code-value-quantity", "http://loinc.org|11557-6$6.2"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
         self.assertEqual(len(brains), 1)
 

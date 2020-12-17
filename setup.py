@@ -18,13 +18,12 @@ install_requires = [
     "setuptools",
     # -*- Extra requirements: -*-
     "z3c.jbot",
-    "plone.api>=1.10.1",
     "plone.restapi",
     "plone.app.dexterity",
     "collective.elasticsearch>=3.0.4",
-    "plone.app.fhirfield>=4.1.0,<5.0.0",
-    "fhirpath>=0.10.4",
-    "fhir.resources[orjson]>=6.0.0b10"
+    "plone.app.fhirfield>=4.2.0,<5.0.0",
+    "fhirpath>=0.10.5",
+    "fhir.resources[orjson]>=6.0.0"
 ]
 
 test_requires = [
