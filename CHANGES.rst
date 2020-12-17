@@ -2,13 +2,14 @@ Changelog
 =========
 
 
-0.7.5 (unreleased)
+0.7.5 (2020-12-17)
 ------------------
 
 - minimum ``fhir.resources`` version is now ``6.0.0``, see it's associated changes at https://pypi.org/project/fhir.resources/6.0.0/.
 
 - minimum ``fhirpath``version is now ``0.10.5``, see it's associated improvements and bug fixes at https://pypi.org/project/fhirpath/0.10.4/
 
+- minimum ``plone.app.fhirfield``version is now ``4.2.0``, see it's associated improvements and bug fixes at https://pypi.org/project/plone.app.fhirfield/4.2.0/
 
 0.7.4 (2020-11-19)
 ------------------
