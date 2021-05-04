@@ -20,10 +20,10 @@ install_requires = [
     "z3c.jbot",
     "plone.restapi",
     "plone.app.dexterity",
-    "collective.elasticsearch>=3.0.4",
+    "collective.elasticsearch>=3.0.5,<4.0.0",
     "plone.app.fhirfield>=4.2.0,<5.0.0",
     "fhirpath>=0.10.5",
-    "fhir.resources[orjson]>=6.0.0"
+    "fhir.resources[orjson]>=6.1.0"
 ]
 
 test_requires = [

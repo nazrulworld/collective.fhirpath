@@ -5,7 +5,7 @@ Changelog
 0.7.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- minimum ``fhir.resources`` version is now ``6.1.0`` and minimum ``collective.elasticsearch`` version is now ``3.0.5``
 
 
 0.7.5 (2020-12-17)
