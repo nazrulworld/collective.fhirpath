@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.7.6 (unreleased)
+0.7.6 (2021-05-04)
 ------------------
 
 - minimum ``fhir.resources`` version is now ``6.1.0`` and minimum ``collective.elasticsearch`` version is now ``3.0.5``
