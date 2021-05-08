@@ -36,7 +36,7 @@ jobs:
 
 env:
   global:
-    - ES_VERSION=6.8.3
+    - ES_VERSION=7.6.2
   jobs:
     - PLONE_VERSION=52  QA=true
 
@@ -50,7 +50,7 @@ before_script:
   - sleep 10
 
 before_install:
-  - docker run -d -e "cluster.name=docker-cluster" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -p 9200:9200 docker.elastic.co/elasticsearch/elasticsearch-oss:${ES_VERSION}
+  - docker run -d -e "cluster.name=docker-cluster" -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -p 9200:9200 docker.elastic.co/elasticsearch/elasticsearch-oss:${ES_VERSION}
   - mkdir -p $HOME/buildout-cache/{eggs,downloads}
   - mkdir $HOME/.buildout
   - echo "[buildout]" > $HOME/.buildout/default.cfg

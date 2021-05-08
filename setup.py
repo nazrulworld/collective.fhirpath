@@ -20,7 +20,7 @@ install_requires = [
     "z3c.jbot",
     "plone.restapi",
     "plone.app.dexterity",
-    "collective.elasticsearch>=3.0.5,<4.0.0",
+    "collective.elasticsearch>=4.0.0",
     "plone.app.fhirfield>=4.2.0,<5.0.0",
     "fhirpath>=0.10.5",
     "fhir.resources[orjson]>=6.1.0"
@@ -43,7 +43,7 @@ docs_requirements = [
 
 setup(
     name="collective.fhirpath",
-    version="0.7.7.dev0",
+    version="0.8.0.dev0",
     description="Plone powered provider for fhirpath",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/

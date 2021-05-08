@@ -1,7 +1,7 @@
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(dir $(mkfile_path))
 current_dir_name := $(notdir $(patsubst %/,%,$(current_dir)))
-es_version := 6.8.3
+es_version := 7.6.2
 
 
 run-es:
@@ -11,8 +11,9 @@ run-es:
 	-e "cluster.routing.allocation.disk.threshold_enabled=false" \
 	-e "network.publish_host=127.0.0.1" \
 	-e "transport.publish_port=9200" \
+	-e "discovery.type=single-node" \
 	-p 127.0.0.1:9200:9200 \
-	--name elasticsearch_zl_fhirapi \
+	--name elasticsearch_collective_fhirpath \
 	docker.elastic.co/elasticsearch/elasticsearch-oss:$(es_version)
 
 

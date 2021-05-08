@@ -17,6 +17,7 @@ from zope.component import queryMultiAdapter
 
 import copy
 import os
+import time
 import uuid
 
 
@@ -241,7 +242,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         # Let's test
         context = self.get_context("Patient", False)
 
@@ -375,6 +376,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("chargeitem/view", self.admin_browser.url)
         # Let's flush
         self.es.connection.indices.flush()
+        time.sleep(0.5)
         # Test so normal
         context = self.get_context("ChargeItem", True)
 
@@ -435,7 +437,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         params = (
             (
                 "price-override",
@@ -492,6 +494,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         # Let's flush
         self.es.connection.indices.flush()
+        time.sleep(0.5)
         # Test so normal
         context = self.get_context("ChargeItem", True)
 
@@ -521,7 +524,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         context = self.get_context("Encounter", True)
 
         params = (("length", "gt139"),)
@@ -567,6 +570,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
         self.es.connection.indices.flush()
+        time.sleep(0.5)
         # Test with multiple equal values
         context = self.get_context("ChargeItem", True)
         params = (("factor-override", "0.8,0.21"),)
@@ -598,7 +602,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         # Test code (Coding)
         context = self.get_context("ChargeItem", True)
 
@@ -642,7 +646,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         # test with only code
         context = self.get_context("MedicationRequest", True)
         params = (("code", "322254008"),)
@@ -724,7 +728,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         context = self.get_context("Observation", True)
         # Test simple composite
         params = (("code-value-quantity", "http://loinc.org|11557-6$6.2"),)
@@ -773,7 +777,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
 
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         context = self.get_context("Task", True)
         params = (("status", "ready,draft"),)
         brains = zcatalog_fhir_search(context, query_string=urlencode(params))
@@ -859,7 +863,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         context = self.get_context("ChargeItem", True)
 
         params = (("code", "387517004,387137007"),)
@@ -900,8 +904,6 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
             )
 
         self.admin_browser.getControl(name="form.buttons.save").click()
-        with open("output.html", "w") as fp:
-            fp.write(self.admin_browser.contents)
         self.assertIn("Item created", self.admin_browser.contents)
 
         device_id = str(uuid.uuid4())
@@ -921,6 +923,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.admin_browser.getControl(name="form.buttons.save").click()
         self.assertIn("Item created", self.admin_browser.contents)
         self.es.connection.indices.flush()
+        time.sleep(0.5)
 
         context = self.get_context("Observation", True)
         # Should One

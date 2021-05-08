@@ -226,3 +226,5 @@ The project is licensed under the GPLv2.
 .. _`PostgreSQL`: https://www.postgresql.org/
 .. _`plone.app.fhirfield`: https://pypi.org/project/plone.app.fhirfield/
 .. _`collective.elasticsearch`: https://pypi.org/project/collective.elasticsearch/
+
+https://github.com/zopefoundation/z3c.baseregistry/pull/7/files

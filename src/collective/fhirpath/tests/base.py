@@ -20,6 +20,7 @@ import logging
 import os
 import pathlib
 import sys
+import time
 import transaction
 import unittest
 
@@ -226,7 +227,7 @@ class BaseTesting(unittest.TestCase):
         # ES indexes to be ready
         # Let's flush
         self.es.connection.indices.flush()
-
+        time.sleep(0.5)
         return [
             org1_url,
             org2_url,
@@ -257,11 +258,7 @@ class BaseFunctionalTesting(BaseTesting):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         setup_es(
             self,
-            es_only_indexes={
-                "Title",
-                "Description",
-                "SearchableText"
-            },
+            es_only_indexes={"Title", "Description", "SearchableText"},
         )
 
         self.anon_browser = z2.Browser(self.layer["app"])

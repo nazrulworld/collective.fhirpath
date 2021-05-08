@@ -2,10 +2,13 @@ Changelog
 =========
 
 
-0.7.7 (unreleased)
+0.8.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Breakings
+
+- Elasticsearch server version is ``7.6.x``.
+
 
 
 0.7.6 (2021-05-04)

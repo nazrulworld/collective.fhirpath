@@ -30,7 +30,7 @@ def MappingAdapter_get_index_creation_body(self):
             }
         }
         # removed from ES 7.1.x
-        settings["index.mapper.dynamic"] = False
+        # settings["index.mapper.dynamic"] = False
 
     except KeyError:
         msg = """

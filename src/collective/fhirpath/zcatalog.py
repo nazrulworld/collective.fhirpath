@@ -27,7 +27,8 @@ class ElasticResult(object):
 
         result = es._search(self.query, sort=self.sort, **query_params)["hits"]
         self.results = {0: result["hits"]}
-        self.count = result["total"]
+        # elasticsearch 7.6.x returns something like {'relation': 'eq', 'value': 1}
+        self.count = result["total"]["value"]
         self.query_params = query_params
 
     def __len__(self):
@@ -92,7 +93,6 @@ def build_engine_result(lazy_maps):
     """ """
     total = 0
     body = EngineResultBody()
-
     for brain in lazy_maps:
         row = EngineResultRow()
         extractor = queryMultiAdapter((brain.getObject(),), IFhirResourceExtractor)
@@ -115,7 +115,6 @@ def zcatalog_fhir_search(
     query_result = Search(
         context=context, query_string=query_string, params=params
     ).build()
-
     query_copy = query_result._query.clone()
     if context.unrestricted is False:
         context.engine.build_security_query(query_copy)
@@ -145,5 +144,4 @@ def zcatalog_fhir_search(
         return lazy_maps
 
     engine_result = build_engine_result(lazy_maps)
-
     return context.engine.wrapped_with_bundle(engine_result, as_json=bundle_as_dict)
