@@ -6,6 +6,8 @@ from fhirpath.storage import MemoryStorage
 from plone import api
 from plone.app.fhirfield.interfaces import IFhirResource
 from plone.app.fhirfield.interfaces import IFhirResourceValue
+from plone.app.uuid.utils import uuidToCatalogBrain
+from plone.app.uuid.utils import uuidToObject as org_uuidToObject
 from plone.behavior.interfaces import IBehavior
 from plone.restapi.exceptions import DeserializationError
 from plone.restapi.services import _no_content_marker
@@ -153,3 +155,15 @@ class FHIRModelServiceMixin:
             return content.json(**dumps_params)
 
         return json_dumps(content, **dumps_params)
+
+
+def uuidToObject(uid, unrestricted=False):
+    """ """
+    if unrestricted is False:
+        return org_uuidToObject(uid)
+
+    brain = uuidToCatalogBrain(uid)
+    if brain is None:
+        return None
+
+    return brain._unrestrictedGetObject()

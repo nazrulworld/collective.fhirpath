@@ -1,9 +1,9 @@
-.. image:: https://img.shields.io/pypi/status/plone.app.fhirfield.svg
-    :target: https://pypi.python.org/pypi/plone.app.fhirfield/
+.. image:: https://img.shields.io/pypi/status/collective.fhirpath.svg
+    :target: https://pypi.org/project/collective.fhirpath/
     :alt: Egg Status
 
 .. image:: https://img.shields.io/travis/nazrulworld/collective.fhirpath/master.svg
-    :target: http://travis-ci.org/nazrulworld/collective.fhirpath
+    :target: https://app.travis-ci.com/github/nazrulworld/collective.fhirpath
     :alt: Travis Build Status
 
 .. image:: https://coveralls.io/repos/github/nazrulworld/collective.fhirpath/badge.svg?branch=master

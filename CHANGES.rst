@@ -2,10 +2,12 @@ Changelog
 =========
 
 
-0.7.7 (unreleased)
+0.8.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+New features
+
+- A patch has been added in response to `issue#91 <https://github.com/collective/collective.elasticsearch/issues/91>`_ on ``collective.elasticsearch``.
 
 
 0.7.6 (2021-05-04)
