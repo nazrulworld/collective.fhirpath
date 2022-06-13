@@ -1,7 +1,7 @@
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(dir $(mkfile_path))
 current_dir_name := $(notdir $(patsubst %/,%,$(current_dir)))
-es_version := 7.6.2
+es_version := 7.10.2
 
 
 run-es:

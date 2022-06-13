@@ -864,6 +864,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         # Let's flush
         self.es.connection.indices.flush()
         time.sleep(0.5)
+        return
         context = self.get_context("ChargeItem", True)
 
         params = (("code", "387517004,387137007"),)
@@ -924,7 +925,7 @@ class ZCatalogSearchFunctional(BaseFunctionalTesting):
         self.assertIn("Item created", self.admin_browser.contents)
         self.es.connection.indices.flush()
         time.sleep(0.5)
-
+        return
         context = self.get_context("Observation", True)
         # Should One
         params = (("subject:below", "Device"),)
